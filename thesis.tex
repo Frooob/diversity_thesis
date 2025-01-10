@@ -98,7 +98,7 @@
 
 %% biblatex is very powerful, and you can customize most aspects the reference list and citations to suit your needs.
 %%   documentation is here: https://ctan.org/pkg/biblatex
-%%   cheat sheet is here:   https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf
+%%   cheat sheet is here:   https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf 
 
 %% To ensure citations are set, run Latex --> biblatex/biber --> Latex again
 
@@ -148,7 +148,7 @@
 	pdfsubject={Template for writing MIT theses with the mitthesis class},
 	% Change this to briefly state topic of your thesis 
 % 
-	pdfkeywords={Massachusetts Institute of Technology, MIT},
+	pdfkeywords={Göttingen, Neuroinformatics},
 	% Add keywords that will help search engines and libraries to find your work.
 	% Includes the name[s] of the author[s] 
 	% (If you used \DocumentMetadata at line 14, you can just put "\CopyrightAuthor," for the names.)
@@ -183,25 +183,25 @@
 \begin{document}
 %%% edit the following commands to match your thesis %%%%%%%%%%
 
-\title{The Atomic Theory as Applied To Gases, with Some Experiments on the Viscosity of Air}
+\title{Influence of data diversity in brain decoding: An empirical study of image reconstruction from fMRI data}
 
 % \Author{Author full name}{Author department}[Author's first PREVIOUS degree][Author's second PREVIOUS degree][...
 % Note that third, fourth, fifth, and sixth arguments are optional [] and may be omitted
 
 % note on names: most of the following names are made up; Silas Holman was a physics professor at MIT in the 19th century.
 
-\Author{Silas W. Holman}{Department of Physics}
+\Author{Matthias K. Mildenberger}{Department of Computer Science}
 % \Author{Luisa Hernández}{Department of Research}[B.S. Mechanical Engineering, UCLA, 2018][M.S. Stellar Interiors, Vulcan Science Academy, 2020]
 % \Author{Thurston Howell III}{Department of Economics}[MBA, Ferengi School of Management, 2022]
 
 % Use once for each degree fulfilled by thesis
 % For two degrees from one department, leave the department argument blank for the second degree {}.
-\Degree{Bachelor of Science in Physics}{Department of Physics}
+\Degree{Master of Science in Applied Computer Science}{Department of Computer Science}
 %\Degree{Master of Science in Physics}{}
 %\Degree{Bachelor of Science in Mechanical Engineering}{Department of Mechanical Engineering}
 
 % If there is more than one supervisor, use the \Supervisor command for each.
-\Supervisor{Edward C. Pickering}{Professor of Physics}
+\Supervisor{Yoshihiro Nagano}{Assistant Professor of Neuroinformatics}
 % \Supervisor{Edward C. Pickering}{Professor of Physics, and \\ \> Professor of Something Else}
 % \Supervisor{Secunda Castor}{Professor of Research}
 % \Supervisor{Quintus Castor}{Professor of Log Dams}
@@ -209,16 +209,17 @@
 % Professor who formally accepts theses for your department (e.g., the Graduate Officer, Professor Sméagol,...)
 % If more than one department, use more than once
 \Acceptor{Tertius Castor}{Professor of Log Dams}{Graduate Officer, Department of Research} % \\ \> Third title}
+
 % \Acceptor{Quarta Castor}{Professor of Lodge Building}{Graduate Officer, Department of Mechanical Engineering}
 %%%  If you need to reduce vertical space, put the acceptor title in the second argument and leave the third blank, {}.
 % \Acceptor{Primus Castor}{Professor and Undergraduate Officer, Department of Physics}{}
 
 % Usage: \DegreeDate{Month}{year}
 % Valid degree months are February, May, June, or September
-\DegreeDate{June}{1876}
+\DegreeDate{May}{2025}
 
 % Date that final thesis is submitted to department
-\ThesisDate{May 18, 1876}
+\ThesisDate{May 01, 2025}
 
 
 %%%%%%  Choose whether to have a CREATIVE COMMONS License  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,7 +264,7 @@
 %%% Make titlepage
 \maketitle
 
-%%%%%%%%% Contents that you need to write follows! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Contents that you need to write follows! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 % \includeonly{acknowledgments,biography,chapter1,chapter2,...,appendixa,...} 
 %   for usage of includeonly, see https://latexref.xyz/_005cinclude-_0026-_005cincludeonly.html
@@ -271,7 +272,7 @@
 %%% Frontmatter (write this material in the mentioned files)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This page is optional. Edit the file committee_members.tex 
-\include{committee_members}
+% \include{committee_members}
 
 % The abstract environment creates all the required headings and footers. 
 % You only need to the text of the abstract in the file abstract.tex
@@ -279,21 +280,21 @@
 	\input{abstract.tex}% use \input rather than \include because we're inside an environment
 \end{abstract}
 
-\include{acknowledgments}% acknowledgments.tex (.tex extension is presumed by \include) 
+% \include{acknowledgments}% acknowledgments.tex (.tex extension is presumed by \include) 
 
-\include{biography}% biography.tex (optional, see https://libraries.mit.edu/distinctive-collections/thesis-specs/#format)
+% \include{biography}% biography.tex (optional, see https://libraries.mit.edu/distinctive-collections/thesis-specs/#format)
 
 %%% Table of contents and lists of stuff (delete unused lists, i.e., if no tables or figures) %%%%%
 
 \tableofcontents
-\listoffigures
-\listoftables
+% \listoffigures
+% \listoftables
 
 %%% Chapters of thesis  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% If you want to use "double spacing", you should start here...
 
- \include{chapter1}% .tex extension is presumed
+ \include{content/chapter1}% .tex extension is presumed
 % \include{chapter2}
 % \include{chapter3}
 % \include{chapter4}
@@ -301,9 +302,9 @@
 
 %%% Appendicies of thesis  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\appendix
-\include{appendixa}
-\include{appendixb}
+% \appendix
+% \include{appendixa}
+% \include{appendixb}
 
 %%% Bibliography (biblatex)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

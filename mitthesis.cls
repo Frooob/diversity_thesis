@@ -293,10 +293,10 @@
 	pdfstartview=Fit,
 	pdfnewwindow=true,
 %
-	pdfcontactaddress={Massachusetts Institute of Technology, 77 Massachusetts Avenue},
-    pdfcontactcity={Cambridge, MA},
-    pdfcontactpostcode={02139-4307},
-    pdfcontactcountry={USA},
+	pdfcontactaddress={Goettingen Univerity},
+    pdfcontactcity={Goettingen, Germany},
+    pdfcontactpostcode={37077},
+    pdfcontactcountry={Germany},
     pdfcontacturl={https://dspace.mit.edu/handle/1721.1/7582},% DSPACE@MIT theses page
 }
  		
@@ -873,7 +873,7 @@
 \tl_new:N \g__copyright_mitpermissionlast_tl
 
 \tl_new:N \g_copyright_mitpermission_tl
-\tl_gset:Nn \g__copyright_mitpermissionlast_tl {to\ MIT\ a\ nonexclusive,\ worldwide,\ irrevocable,\ royalty-free\ license\ to\ exercise\ any\ and\ all\ rights\ under\ copyright,\ including\ to\ reproduce,\ preserve,\ distribute\ and\ publicly\ display\ copies\ of\ the\ thesis,\ or\ release\ the\  thesis\ under\ an\ open-access\ license.}
+\tl_gset:Nn \g__copyright_mitpermissionlast_tl {}
 
 \bool_new:N \g__cclicense_tf_bool
 \bool_gset_false:N \g__cclicense_tf_bool
@@ -922,7 +922,7 @@
 	}
 
 \tl_new:N \g_titlepage_institution_name_tl
-\tl_gset:Nn \g_titlepage_institution_name_tl {Massachusetts\ Institute\ of\ Technology} 
+\tl_gset:Nn \g_titlepage_institution_name_tl {University\ of\ Göttingen} 
 \cs_new:Npn \Institution #1 { \tl_gset:Nn \g_titlepage_institution_name_tl {\tl_trim_spaces:n #1} }
 
 
@@ -966,10 +966,10 @@
    }
    \int_compare:nNnTF {\g_author_authorcnt_int} > {1} 
    		{   
-			\tl_gset:Nn \g__copyright_crwords_tl_ {The\ authors\ hereby\ grant} 
+			\tl_gset:Nn \g__copyright_crwords_tl_ {} 
 		}
 		{
-			\tl_gset:Nn \g__copyright_crwords_tl_ {The\ author\ hereby\ grants} 
+			\tl_gset:Nn \g__copyright_crwords_tl_ {} 
 		}
     \IfBooleanTF{#1}{
 	    \tl_gset:Nn \g_copyright_mitpermission_tl {\scan_stop:}
@@ -977,7 +977,7 @@
 	    \tl_gset:Nn \g_copyright_mitpermission_tl {\g__copyright_crwords_tl_\ \g__copyright_mitpermissionlast_tl}
     }
 % 
-	\clearpage
+	% \clearpage
 	\thispagestyle{empty}
  	{\centering \vbox_to_ht:nn { \vsize }% to prevent signature block from breaking across page
         {
@@ -994,7 +994,7 @@
             \textls[60]{\text_uppercase:n { \g_titlepage_institution_name_tl }}\par
             \DegreeMonth\ \DegreeYear\par
 			\__titlepage_blockskip:nn {12}{2}
-            \copyright\space\DegreeYear\space\CopyrightAuthor\@.\c_space_token \g_copyright_copyrightlicencse_tl % \@. in case name ends with III, IV, V,...
+            % \copyright\space\DegreeYear\space\CopyrightAuthor\@.\c_space_token \g_copyright_copyrightlicencse_tl % \@. in case name ends with III, IV, V,...
 			\__titlepage_blockskip:nn {18}{2}
             \vbox:n {\__signature_block:}
 			\__titlepage_bottomskip:
@@ -1005,7 +1005,7 @@
     		pdfauthor={\g__author_pdfca_tl},
     		pdfcaptionwriter = {\g__author_pdfca_tl},
     	}
-	\cleardoublepage
+	% \cleardoublepage
 }
 
 %%%%%%%%%%  End title page module  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1036,7 +1036,7 @@
 	\tl_if_blank:nT {#1} { MISSING\ ABSTRACT!  \msg_error:nn { \ClassName } { missing_abstract } }
 }{
 	\__supervisor_abstractblock:
-	\cleardoublepage
+	% \cleardoublepage
 }
 \msg_new:nnnn { \ClassName } { missing_abstract } {Missing\ Abstract!! } { No\ file\ was\ input\ for\ the\ abstract.\  You\ need\ to\ do\ \string\input{abstract.tex}.}
 
