@@ -1,0 +1,202 @@
+\section{Data Collection}
+
+
+\subsection{Subjects}
+The data were collected from 5 healthy volunteers aged between 23 and 33 years (4 males and 1 female). All subjects provided informed consent before the experiment, with the study protocol having been reviewed and approved by the Ethics Committee of the Graduate School of Informatics at Kyoto University (approval no.: KUIS{-}EAR{-}2017{-}002). The subjects had normal or corrected-to-normal vision.
+
+\subsection{Experimental Setup}
+% Description of Deeprecon Dataset (quote Horikawa/Kamitani)
+The experimental design for the current study was the same as that of Shen et al.\ \cite{shenDeepImageReconstruction2019} However, only the data from the image presentation experiment are used in this study. The public dataset of Shen et al.\ \cite{ds001506:1.3.1} contains three of the five subjects that are used in the current study.  Two types of image presentation experiments were performed: training and testing. All stimuli were rear projected onto a screen in an MRI scanner bore with a luminance-calibrated liquid crystal display projector. The stimulus images were displayed at the screen center with a size of 12° $\times$ 12° of visual angle on a gray background. We asked subjects to fixate on the center of the images cued by a circle of 0.3° $\times$ 0.3° of visual angle. Each subject used a custom-molded bite bar and/or personalized headcase from CaseForge Inc.\ to reduce head motion during fMRI data collection. Multiple scanning sessions were performed to collect data for each subject. Multiple scanning sessions were performed to collect data for each subject. Each consecutive session took a maximum of 2 hours, with each run taking 6 to 8 min. The subjects were free to rest adequately between runs or to terminate the experiment at any time. Each image was flashed for 8 seconds at a frequency of 2 Hz, after which the average brain activation during the 8 seconds was calculated. This procedure was repeated 5 times for each image. The experimental design is described in detail in the original paper by Shen et al.\cite{shenDeepImageReconstruction2019}. There were three different categories of images shown to the subjects: natural training images, natural test images and artificial shapes test images. The selection of natural images was the same as that used in the experiment by Horikawa et al.\ \cite{horikawaGenericDecodingSeen2017}. The dataset consists of 1200 images that were extracted from the ImageNet database\cite{dengImageNetLargescaleHierarchical2009} for the training dataset and 50 images for the test dataset. It was ensured that the overlap between the categories of the training and test dataset was minimized (thus the Deeprecon dataset has a considerably lower overlap between the training and test data than, for example, the popular NSD dataset\cite{allenMassive7TFMRI2022,shirakawaSpuriousReconstructionBrain2024}). The Artificial Shapes test dataset consists of 40 images in which 5 different artificial shapes (the same shapes of the study by Miyawaki et al.\ \cite{miyawakiVisualImageReconstruction2008}) are depicted in 4 different colors on a uniform gray background. Graphic~\ref{fig:datasets_train_art} shows a sample of the Train/Test and Artificial Shapes images. Since the brain-diffuser algorithm requires descriptions (captions) of the images in addition to the images, Shirakawa et al.\ \cite{shirakawaSpuriousReconstructionBrain2024} used crowd-sourcing to collect 5 short captions for each image in the training and test datasets for the natural images. In addition, 5 captions were also created for each image in the test dataset of artificial shapes for this work.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/datasets_train_art_images.jpeg}
+    \caption{A nice image}\label{fig:datasets_train_art}
+\end{figure}
+
+\subsection{MRI Data}
+% Hier kann ich evtl die Beschreibung aus dem Kamitani Lab nutzen
+\subsubsection{MRI data acquisition}
+The fMRI data was collected using a 3.0-T Siemens MAGNETOM Verio scanner at the Kyoto University Institute for the Future of Human Society (formerly, Kokoro Research Center). An interleaved T2*-weighted gradient-echo echo-planar imaging scan was performed to acquire functional images covering the entire brain [repetition time (TR), 2000 ms; echo time (TE), 43 ms; flip angle, 80°; field of view (FOV), 192 $\times$ 192 mm2; voxel size, 2 $\times$ 2 $\times$ 2 mm3; slice gap, 0 mm; number of slices, 76; and multiband factor, 4]. T1-weighted (T1w) magnetization-prepared rapid acquisition gradient-echo fine-structural images of the entire head were also acquired [TR, 2250 ms; TE, 3.06 ms; inversion time (TI), 900 ms; flip angle, 9°; FOV, 256 $\times$ 256 mm2; and voxel size, 1.0 $\times$ 1.0 $\times$ 1.0 mm3].
+
+\subsubsection{MRI data preprocessing}
+MRI data preprocessing was performed through the pipeline of FMRIPREP (version 1.2.1). For the functional data of each run, a BOLD reference image was first estimated using a custom methodology of FMRIPREP.\@ Then, data were motion-corrected using MCFLIRT from FSL (version 5.0.9) and slice time-corrected using 3dTshift from AFNI (version 16.2.07), based on this BOLD reference image. Next, the corresponding T1w image was coregistered using boundary-based registration implemented by bbregister from FreeSurfer (version 6.0.1). The coregistered BOLD time-series were then resampled onto their original space (2 $\times$ 2 $\times$ 2 mm3 voxels) with antsApplyTransforms from ANTs (version 2.1.0) using Lanczos interpolation. After obtaining the resampled BOLD time series, the time series was first shifted by 4 s (two volumes) to compensate for hemodynamic delays, and then nuisance parameters from each voxel’s time series of each run were regressed out, including a constant baseline, a linear trend, and temporal components proportional to the six motion parameters calculated during the motion correction procedure (three rotations and three translations). Single-trial data samples were created by reducing extreme values (beyond ±3 SD for each run) of the time series and averaged within each 8-s trial (four volumes).
+
+\subsubsection{Brain regions of interest}
+According to standard retinotopy experiments\cite{engelFMRIHumanVisual1994,serenoBordersMultipleVisual1995}, V1, V2, V3, and V4 were delineated. The LOC, FFA, and PPA were identified using conventional functional localizers\cite{kanwisherFusiformFaceArea1997,epsteinCorticalRepresentationLocal1998,kourtziCorticalRegionsInvolved2000}. The higher visual cortex (HVC) region was defined by manually delineating a contiguous region that covered the LOC, FFA, and PPA on the flattened cortical surfaces. The VC was defined by combining V1 to V4 and the HVC.\@ For all the upcoming experiments, the whole VC was used for the reconstruction. After pre-processing the number of Voxels in the VC that can be used for the reconstruction task reanged from 13,135 and 16,667.
+
+% {'S1': 13596, 'S2': 14597, 'S3': 13135, 'S4': 16067, 'S5': 13149, 'S6': 15316}
+
+% Images were collected from an online image database ImageNet31 (2011, fall release), an image database where images are grouped according to the hierarchy in WordNet38. We selected 200 representative object categories (synsets) as stimuli in the visual image presentation experiment. After excluding images with a width or height o100 pixels or aspect ratio 41.5 or o2/3, all remaining images in ImageNet were cropped to the centre.
+
+% Description of fmri-data 
+%% Number of subjects
+%% Number of runs per image
+%% Experimental Design how the participants are shown the images
+%% ROI Experiments
+%% Chosen ROIs
+
+\section{Reconstruction-Algorithms}
+
+% How does the whole reconstruction pipeline look like? Both for ICNN and for brain-diffuser
+In this work, the two algorithms brain-diffuser\cite{ozcelikNaturalSceneReconstruction2023} and ICNN\cite{shenDeepImageReconstruction2019}, that are described in more detail above, are used. The parameters for the algorithms that are used for this work are stated below. The entire codebase, which this work is based on, is publicly available on github\cite{mildenbergerKamitaniLabBrain_diffuser}, the associated README describes how to work with the codebase. 
+
+\subsection{Brain-Diffuser}
+% Brain-diffuser
+Unless stated otherwise, the default settings described in the original publication are used for the brain-diffuser algorithm. For this purpose, the publicly available codebase of the author\cite{ozcelikOzcelikfuBraindiffuser2025} was used and adapted for the purposes of this work so that the Deeprecon data set can also be used.
+First, the mean value of the measured brain activity of the 5 image presentations was calculated for each of the 1200 images in the training data set. This data serves as input for both the brain-diffuser algorithm and the ICNN algorithm. It should be noted that a better performance in the reconstruction could possibly result if the 5 presentations of each stimulus were included individually in the training data (i.e.\ a total of 6000 training samples would be available). However, since the main aim of this work is to investigate the relative difference between different test conditions and not to achieve the highest possible absolute performance, it was decided to calculate the mean value of the activation in order to save computing resources.
+
+%% Regression
+\subsubsection{Brain-Diffuser Decoder}
+As is usual in reconstruction algorithms, the brain-diffuser algorithm first trains translators that map the brain activity into a latent space, which can then be used for reconstruction. There are three different translators that are trained for the brain-diffuser: one that maps the brain activity to the latent space of a VDVAE, one for clip text features and one for the clip vision features. The activations of all voxels recorded during the presentation of an image serve as predictor values.  
+
+The criteria to be predicted are the embeddings of the stimuli in the respective latent spaces of the three components. These true features must first be extracted from the simulus material. For the VDVAE, the model of Child et al.\ \cite{childVeryDeepVAEs2020} is used, which was pre-trained with the ImageNet data set (64 $\times$ 64 pixels). As with the original brain-diffuser, only the first 31 layers of the total 75 layers of the VDVAE are used here, as adding further layers would not improve the prediction, but would unnecessarily increase the size of the translator module. The 31 VDVAE layers of the embedded training images were concatenated so that the Translator has to learn to predict a 91168-dimensional vector. 
+Since CLIP\cite{radfordLearningTransferableVisual2021} is a multimodal model, it can be used to extract both the true features from the presented images (clipvision) and the associated captions (cliptext). For this work, a pre-trained CLIP network is used which is based on the Transformer architecture (ViT-L/14). For clipvision, the images are embedded in a space with 257 $\times$ 768 values (256 image patches and a final vector for the entire image). For cliptext, the captions are embedded in a space with 77 $\times$ 768 values (76 tokens and a final vector for the entire caption). As 5 different captions were generated for each image, the average value of the latent space from all 5 captions is used as the true feature for cliptext.
+
+% Ridge Regression
+
+For the brain-diffuser algorithm, the linear ridge regression\cite{hoerlRidgeRegressionBiased1970} is used for all translators. The ridge regression extends the linear regression by adding a penalty term, which is controlled via the coefficient $\lambda$ and regularizes (i.e.\ shrinks) the estimated coefficients. The higher $\lambda$, the more the parameters are shrunk. Especially in cases where a high dependency between individual predictors is to be expected, more robust parameters can be estimated in that way. Since the activation of neighboring voxels is strongly correlated, ridge regression is therefore helpful in our case.
+
+The ridge regression minimizes the following objective function:
+\[
+\min_{\beta} \sum_{i=1}^{n} {(Y_i - X_i \beta)}^2 + \lambda \sum_{j=1}^{p} \beta_j^2
+\]
+where:
+\begin{itemize}
+    \item \(Y_i\) is the extracted feature-vector (VDAVE, cliptext or clipvision) for the \(i\)-train image or caption,
+    \item \(X_i\) is the vector of recorded voxels in response to the \(i\)-th picture,
+    \item \(\beta\) is the vector of coefficients to be estimated,
+    \item \(\lambda\) is the regularization parameter controlling the strength of the penalty.
+\end{itemize}
+
+For the prediction of the latent space of the VDAVE, $\lambda_{VDVAE}=50000$ is set, for cliptext $\lambda_{cliptext}=100000$ and for clipvision $\lambda_{clipvision}=60000$. 
+
+% \begin{equation}
+%     \hat{\beta} = \underset{\beta}{\arg\min} \ \frac{1}{n} \sum_{i=1}^{n} (y_i - X_i \beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2
+% \end{equation}
+        
+% where:
+% \begin{itemize}
+%     \item \(\hat{\beta}\) is the estimated vector of coefficients,
+%     \item \(y_i\) is the observed response for the \(i\)-th observation,
+%     \item \(X_i\) is the vector of predictor values for the \(i\)-th observation,
+%     \item \(\beta\) is the vector of coefficients to be estimated,
+%     \item \(\lambda\) is the regularization parameter controlling the strength of the penalty.
+% \end{itemize}
+
+\subsubsection{Brain-Diffuser Reconstruction}
+% % Reconstruction
+After the brain activity for the test datasets has been mapped to the latent spaces of VDVAE, cliptext and clipvision using the Translators, these decoded features can be fed into the generator in the second step, which reconstructs the images.
+
+% Versatile Diffusion
+The Versatile Diffusion Algorithm is used as the reconstruction module in the brain diffuser. The model used here was pre-trained on the Laion2B-en\cite{schuhmannLAION400MOpenDataset2021} dataset. During the reconstruction itself, no parameters are trained, only the pre-trained parameters of the models are used. First, the generator part of the VDVAE is used to generate a first (blurry) approximation of the final reconstructed image from the predicted features. The VDVAE generates images with a size of 64 $\times$ 64 pixels, which are first scaled up to a size of 512 $\times$ 512 to serve as a prior for the Versatile Diffusion Generator. The image generated by the VDVAE adds noise to 37 of the 50 forward diffusion steps. In the backward-denoising process, the generated image is conditioned by both the predicted clipvision (relative strength 0.6) and cliptext (relative strength 0.4) features. The generated images have a size of 512 $\times$ 512 pixels. 
+
+% ICNN
+\subsection{ICNN}
+Similarly to the brian-diffuser, the ICNN\cite{shenDeepImageReconstruction2019} algorithm also consists of a translator and a reconstruction module. 
+\subsubsection{ICNN Decoder}
+The averaged activations of all voxels are again the predictors for the translator. The criteria are the features of a VGG19\cite{simonyanVeryDeepConvolutional2014} model, with which the stimuli (resized to 224$\times$224 pixels) are encoded. The VGG19 implementation of Pytorch was used, whereby the weights of the caffe implementation\cite{ModelZoo} (pre-trained on ImageNet) were used to create the same conditions as in the original implementation by Shen et al.\ \cite{shenDeepImageReconstruction2019}. The features from the 19 layers of the VGG were then reshaped into one-dimensional vectors. The size of the respective vectors for all the 19 layers can be found in the appendix. As with the brain diffuser, a ridge regression is then also calculated, which predicts the features from the voxel data, the ridge parameter is set to $\lambda=50000$.
+
+\subsubsection{ICNN Reconstruction}
+Once the brain activity of the test data sets has been mapped to the feature space of the VGG19 layer using the learned regression, the reconstruction of the images with the ICNN algorithm\cite{shenDeepImageReconstruction2019} begins. The implementation of the bdpy package\cite{KamitaniLabBdpy2024} is used for this. The SGD optimizer is used and the number of iterations in which the reconstructed image is adapted to the predicted features is set to 500. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/baseline_true_recon_test.JPEG}
+    \caption{A nice image}\label{fig:baselinetruerecon}
+\end{figure}
+To get an impression of the theoretical upper limit for the reconstruction performance of the two algorithms, the true features can be used for reconstruction. Here, features extracted directly from the stimulus material are fed into the reconstruction module. This means that no brain data is used for the true feature reconstruction. True feature reconstruction therefore offers the opportunity to see how good the reconstruction would be if the latent features could be perfectly predicted from the brain data. Figure~\ref{fig:baselinetruerecon} shows the true feature reconstruction for 10 of the 50 images of the test data set with natural images, in Figure~\ref{fig:baselinetruerecon_art} the true feature reconstruction is displayed for 10 of the 40 images of the artificial shapes data set. The first line shows the images that were presented to the test subjects during the experiment. In addition to the final result of the brain-diffuser algorithm (shown in the third row), the intermediate result of the VDVAE is also shown in the second row. It can be seen that the VDVAE algorithm shows a very good reconstruction performance for all images and is usually only a slightly blurred image of the ground truth. This is to be expected, as the VDVAE is precisely designed to reconstruct original images from a reduced feature space with as few errors as possible. The final result of the Versatile Diffusion of the brain-diffuser algorithm also shows good performance in principle, but it becomes apparent that details from the image are sometimes displayed incorrectly or are hallucinated. For example, the bat looks more like a bird, the fish swims in the wrong direction, additional writing is visible on the sphere or an additional circle has appeared around the blue cross in the artificial shape. The iCNN algorithm is closer to the result of the VDVAE.\ Most of the images can be displayed correctly for the main part. In particular, finer details and the coloring of backgrounds (clearly visible in the artificial shapes) are sometimes incorrectly reconstructed by the ICNN.\ In summary, the true feature reconstruction shows that both algorithms are basically capable of reconstructing images from a feature space, even if both algorithms have some weaknesses.
+% True-Feature Reconstruction
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/baseline_true_recon_art.JPEG}
+    \caption{A nice image}\label{fig:baselinetruerecon_art}
+\end{figure}
+
+% Small Evaluation of the True-Feature Reconstruction
+
+\section{Evaluation Metrics}
+%% Regression Criteria
+% Profile Correlation
+% Pattern Correlation
+% Pairwise Identification Accuracy
+
+It is possible to evaluate both stages of the reconstruction algorithms (the decoding and the reconstruction). The results of the regressions are used to evaluate the decoding part of the algorithms and the final reconstructed images are examined to evaluate the reconstruction part of the algorithms.
+
+\subsection{Measuring Decoding Performance}
+To evaluate the decoding performance, different criteria can be used. Formally, the result of the regression can be described as follows. Let:
+\begin{itemize}
+    \item \( \hat{Y} \) be the predicted features matrix of shape \( n \times m \).
+    \item \( Y \) be the true features matrix of shape \( n \times m \).
+    \item \( n \) be the number of samples.
+    \item \( m \) be the number of features.
+\end{itemize}
+
+The profile correlation and pattern correlation can now be used to assess how similar the features predicted from the brain activity and the true features are\cite{horikawaGenericDecodingSeen2017}. 
+
+\[
+\text{ProfileCorrelation}(i) = \text{corr}\left( \mathbf{Y}_{\text{true}, i},\ \mathbf{Y}_{\text{pred}, i} \right) \quad \text{for } i = 1, 2, \ldots, m
+\]
+
+\[
+\text{PatternCorrelation}(j) = \text{corr}\left( \mathbf{Y}_{\text{true}}^{(j)},\ \mathbf{Y}_{\text{pred}}^{(j)} \right) \quad \text{for } j = 1, 2, \ldots, n
+\]
+
+Profile Correlation focuses more strongly on how well individual prediction units (e.g.\ a low-level layer in VGG19) can be predicted. Pattern Correlation focuses on how well the entire feature pattern can be predicted for a single image. 
+In addition to Profile and Pattern Correlation, the Pairwise Identification Accuracy can also be calculated. The Pairwise Identification Accuracy is a metric frequently used to determine the feature prediction in reconstruction algorithms\cite{shirakawaSpuriousReconstructionBrain2024}. 
+The pairwise identification accuracy measures whether a predicted feature vector is more similar to the true feature than the other predicted vectors. For a Feature Vector $i$, it is defined as:
+
+% für alle
+% \[
+% \text{PairwiseIDAcc} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{1}{n-1} \sum_{\substack{j=1 \\ j \neq i}}^{n} \mathbb{I} \left( \left\| \mathbf{Y}_{\text{pred},i} - \mathbf{Y}_{\text{true},i} \right\| < \left\| \mathbf{Y}_{\text{pred},j} - \mathbf{Y}_{\text{true},i} \right\| \right) \right)
+% \]
+
+
+\[ % Only for image i
+\text{PairwiseIDAcc}_i = \frac{1}{n-1} \sum_{\substack{j=1 \\ j \neq i}}^{n} \mathbb{I} \left( \left\| \mathbf{Y}_{\text{pred},i} - \mathbf{Y}_{\text{true},i} \right\| < \left\| \mathbf{Y}_{\text{pred},j} - \mathbf{Y}_{\text{true},i} \right\| \right)
+\]
+
+\begin{itemize}
+    \item \( \mathbf{Y}_{\text{true},i} \) represents the true feature vector for the \( i \)-th sample.
+    \item \( \mathbf{Y}_{\text{pred},i} \) represents the predicted feature vector for the \( i \)-th sample.
+    \item \( \left\| \cdot \right\| \) denotes the Euclidean norm (i.e., the Euclidean distance between two vectors).
+    \item \( \mathbb{I}(\cdot) \) is the indicator function, which equals 1 if the condition inside is true and 0 otherwise.
+\end{itemize}
+
+If a feature vector cannot be predicted from brain activity, one would expect the pairwise identification accuracy to be 0.5, since it would be a matter of chance whether any other vector would be more or less similar to the true feature than the actually predicted feature vector. Due to the better interpretability of the Pairwise Identification Accuracy compared to the Pattern and Profile Correlation, the latter is reported and interpreted with priority. The values for Pattern and Profile Correlation can be found in the appendix, unless they are directly necessary to make results more explicit (as for example when the Pairwise Identification Accuracy is not able to show the differences between individual experimental conditions due to ceiling effects).
+
+%% Recsontruction Criteria
+% Pixel-Correlation (Low-level)
+% Dreamsim (Mid-Level)
+% Clipvision (High-level)
+
+\subsection{Measuring Reconstruction Performance}
+
+The final results of the reconstruction algorithms can in turn be analysed both qualitatively and quantitatively. Different metrics can be used to compare the ground truth images and the reconstructed images on a quantitative level\cite{ozcelikNaturalSceneReconstruction2023}. On the one hand, the metrics can focus on the low-level features of an image (e.g.\ structure and colour); on the other hand, there are metrics that compare the high-level features of the images (i.e.\ the semantic meaning). For an appropriate judgement on the overall quality of a reconstruction, it is important to consider both the low-level and high-level features (a reconstructed image that has the correct outlines but completely ignores the semantic concepts is just as bad as an image in which the meaning has been correctly captured but the position and position of the objects in the image are incorrectly represented).
+
+In this work, the PixelCorrelation is used as a low-level metric\cite{shenDeepImageReconstruction2019,ozcelikNaturalSceneReconstruction2023}. In this method, the reconstructed images and the ground truth image are first reshaped into a one-dimensional vector and the correlation between the two is then calculated. The expected value for random reconstructions would be $r=0$.
+
+To measure the high-level differences between reconstructed and ground truth images, they are first embedded in a semantic feature space using a ClipVision encoder\cite{radfordLearningTransferableVisual2021}. The correlation between the embedded features of the ground truth images and the reconstruction images is then compared and, as with pairwise identification accuracy, it is determined how often the congruent pairs of reconstructed image and ground truth have a higher correlation of clipvision features than the incongruent pairs between any other reconstructed image and the ground truth. As with the Identification Accuracy, the random value here is 0.5. The two metrics were used to match the author's metrics from brain-diffuse\cite{ozcelikNaturalSceneReconstruction2023} to ensure comparability with these results. 
+
+In addition to the low-level and high-level differences, a third quantiative metric is used in this work to test the reconstruction performance. Since the natural human judgement about the similarity of images is based on several visual attributes that integrate low-level features with high-level features\cite{sundaramWhenDoesPerceptual2024}, Dreamsim\cite{fuDreamSimLearningNew2023} was developed to get closer to the natural judgement about the similarity of images. DreamSim combines various image features and has been fine-tuned with human judgement to better estimate the ``mid-level'' similarity between images. To calculate the similarity between two images, the cosine-distance (i.e.\ angle) between the DreamSim embedding vector of the ground truth and the predicted image is calculated. In a random reconstruction, the cosine distance would be 1 (the feature vectors would be orthogonal to each other).
+
+Since even the DreamSim metric is not perfect for comparing the similarity of images, and since judgments of quality may vary from person to person, the differences are also described qualitatively. Individual examples of the actual reconstructed images are shown and compared to the ground truth images for each test condition tested in this paper.  As not all reconstructed images can be shown in this paper, additional reconstructed images are presented in the appendix.
+
+\section{Baseline Results}
+
+\subsection{Qualitative Results}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/baseline_recon_test.JPEG}
+    \caption{A nice image}\label{fig:baselinerecon}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/baseline_recon_art.JPEG}
+    \caption{A nice image}\label{fig:baselinereconart}
+\end{figure}
+
+\subsection{Quantitative Results}

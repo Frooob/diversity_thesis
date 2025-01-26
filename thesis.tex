@@ -39,7 +39,7 @@
 
 %% Package for code listing in Appendix A.
 \usepackage{listings}%   documentation is here https://ctan.org/pkg/listings
-
+\usepackage{amsfonts}
 %% Set chemical formulas nicely
 \usepackage[version=4]{mhchem}%   documentation at https://ctan.org/pkg/mhchem
 
@@ -91,7 +91,7 @@
 % \usepackage[style=authoryear, maxbibnames=10]{biblatex} 
 
 
-\addbibresource{mitthesis-sample.bib}%% <== change to YOUR bib file <= CHANGE
+\addbibresource{literature.bib}%% <== change to YOUR bib file <= CHANGE
 
 %% to avoid split urls and stretched white space, you can set the bibliography ragged-right:
 %\appto{\bibsetup}{\raggedright}
@@ -295,6 +295,8 @@
 %% If you want to use "double spacing", you should start here...
 
  \include{content/chapter1}% .tex extension is presumed
+ \include{content/02_methodology}
+ \include{content/03_experiments}
 % \include{chapter2}
 % \include{chapter3}
 % \include{chapter4}
@@ -323,7 +325,7 @@
 %%   use an appropriate style (.bst) and your own .bib file[s]
 
 %\bibliographystyle{plainnat}
-%\bibliography{mitthesis-sample.bib}
+%\bibliography{literature.bib}
 
 \end{document} 
  
