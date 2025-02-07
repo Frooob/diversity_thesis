@@ -102,7 +102,7 @@ Once the brain activity of the test data sets has been mapped to the feature spa
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/baseline_true_recon_test.JPEG}
+    \includegraphics[width=0.8\textwidth]{plots/baseline_qual_true_recon_test.JPEG}
     \caption{A nice image}\label{fig:baselinetruerecon}
 \end{figure}
 To get an impression of the theoretical upper limit for the reconstruction performance of the two algorithms, the true features can be used for reconstruction. Here, features extracted directly from the stimulus material are fed into the reconstruction module. This means that no brain data is used for the true feature reconstruction. True feature reconstruction therefore offers the opportunity to see how good the reconstruction would be if the latent features could be perfectly predicted from the brain data. Figure~\ref{fig:baselinetruerecon} shows the true feature reconstruction for 10 of the 50 images of the test data set with natural images, in Figure~\ref{fig:baselinetruerecon_art} the true feature reconstruction is displayed for 10 of the 40 images of the artificial shapes data set. The first line shows the images that were presented to the test subjects during the experiment. In addition to the final result of the brain-diffuser algorithm (shown in the third row), the intermediate result of the VDVAE is also shown in the second row. It can be seen that the VDVAE algorithm shows a very good reconstruction performance for all images and is usually only a slightly blurred image of the ground truth. This is to be expected, as the VDVAE is precisely designed to reconstruct original images from a reduced feature space with as few errors as possible. The final result of the Versatile Diffusion of the brain-diffuser algorithm also shows good performance in principle, but it becomes apparent that details from the image are sometimes displayed incorrectly or are hallucinated. For example, the bat looks more like a bird, the fish swims in the wrong direction, additional writing is visible on the sphere or an additional circle has appeared around the blue cross in the artificial shape. The iCNN algorithm is closer to the result of the VDVAE.\ Most of the images can be displayed correctly for the main part. In particular, finer details and the coloring of backgrounds (clearly visible in the artificial shapes) are sometimes incorrectly reconstructed by the ICNN.\ In summary, the true feature reconstruction shows that both algorithms are basically capable of reconstructing images from a feature space, even if both algorithms have some weaknesses.
@@ -111,7 +111,7 @@ To get an impression of the theoretical upper limit for the reconstruction perfo
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/baseline_true_recon_art.JPEG}
+    \includegraphics[width=0.8\textwidth]{plots/baseline_qual_true_recon_art.JPEG}
     \caption{A nice image}\label{fig:baselinetruerecon_art}
 \end{figure}
 
@@ -227,13 +227,13 @@ The plots in Figure~\ref{fig:baselinerecontestquant} show the results of the qua
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/baseline_recon_test.JPEG}
+    \includegraphics[width=0.8\textwidth]{plots/baseline_qual_recon_test.JPEG}
     \caption{A nice image}\label{fig:baselinerecontestqual}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/baseline_recon_art.JPEG}
+    \includegraphics[width=0.8\textwidth]{plots/baseline_qual_recon_art.JPEG}
     \caption{A nice image}\label{fig:baselinereconartqual}
 \end{figure}
 
