@@ -78,34 +78,74 @@ For faster convergence, the learning rate is set to 3 in the first 100 steps, to
 
 \subsubsection{Perturbation Validation}
 
-% Show the recon_diffuser/src/recon_diffuser/adv_pert/sanity_check_friendly_vs_adversarial_cap.png plot (Currently only on smith) -> Shows, that the corresponding captions are actually closer to the images than the other ones.
+% Image from smith clip_module_testing.py
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{plots/advpert_sanity_check_friendly_vs_adversarial_cap.png}
+    \caption{A nice image}\label{fig:advpert_sanity_check_friendly_vs_adversarial_cap}
+\end{figure}
+% TODO: Describe the image
+% -> Shows, that the corresponding captions are actually closer to the images than the other ones.
 % Conclusion: I can do things like friendly and adversarial perturbations
 
 
 % Show how the loss is developing for the IC criterion 
 % TODO: need an image for that
 % Both friendly and adversarial in one image -> To show, that both of them develop similarly
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_validation_ic_loss_curves.png}
+    \caption{A nice image}\label{fig:advpert_validation_ic_loss_curves}
+\end{figure}
+
 
 % Show how the results of IC change with more and more epochs (together with the IC loss plot)
     % With images for each epoch
-    % + the quantitative plot how the clip distance changes 
-    % Both friendly and adversarial
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_ic_qual_validation_evolution.png}
+    \caption{A nice image}\label{fig:advpert_ic_qual_validation_evolution}
+\end{figure}
 
 % Show how the FGSM changes the images (Qualitative)
     % With different Epsilons
 
-% Show the influence of friendly vs adversarial perturbation on SSIM
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_validation_fgsm_loss_curves.png}
+    \caption{A nice image}\label{fig:advpert_validation_fgsm_loss_curves}
+\end{figure}
+
+% Show the influence of friendly vs adversarial perturbation on PixCorr
     % Both for FGSM and for IC
     % -> Not so much changes in the images
-    
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_fgsm_qual_validation_evolution.png}
+    \caption{A nice image}\label{fig:advpert_fgsm_qual_validation_evolution}
+\end{figure}
+
 % Define the parameters that will be used in the final test 
     % 90/10 for IC and 0.03 for FGSM
 
 % Show how loss to original clipfeatures and caption clip features are on average for the chosen perturbations
     % Don't need to show ALL the pictures here I guess? Otherwise I'd have to do the whole perturbation process again
+    % oh boy. Oh you poor little boy...
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_validation_chosen_perts.png}
+    \caption{A nice image}\label{fig:advpert_validation_chosen_perts}
+\end{figure}
+
 
 % Show some of the images qualitatively that will be shown
-
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_validation_chosen_qual.png}
+    \caption{A nice image}\label{fig:advpert_validation_chosen_qual}
+\end{figure}
 
 
 \subsection{Results}
