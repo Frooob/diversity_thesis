@@ -24,7 +24,7 @@ The perturbation procedure is described below. The training images are to be man
 \subsubsection{Perturbation Process}
 
 % FGSM Algorithm Formula
-First, the Fast Gradient Sign Method\cite{goodfellowExplainingHarnessingAdversarial2014} (FGSM) is used to generate the perturbations. In FGSM, an image is first encoded with a model (here the clipvision encoder) in a forward step, then a loss to a desired output vector (the perturbation vector is calculated with respect to the input image , then the sign of the gradient (multiplied by a freely chosen factor $\epsilon$) is subtracted from the input image in a single backpropagation step. This procedure ensures that the clipvision output of the perturbed image is more similar to the perturbation vector. The mathematical description of the algorithm is as follows
+First, the Fast Gradient Sign Method\cite{goodfellowExplainingHarnessingAdversarial2014} (FGSM) is used to generate the perturbations. In FGSM, an image is first encoded with a model (here the clipvision encoder) in a forward step, then a loss to a desired output vector (the perturbation vector is calculated with respect to the input image, then the sign of the gradient (multiplied by a freely chosen factor $\epsilon$) is subtracted from the input image in a single backpropagation step. This procedure ensures that the clipvision output of the perturbed image is more similar to the perturbation vector. The mathematical description of the algorithm is as follows
 
 \[
 x' = x + \epsilon \cdot \text{sign}(\nabla_x J(\theta, x, y))
@@ -92,7 +92,7 @@ In the following, the two perturbation methods will be examined more closely, an
 
 It is clear that the friendly captions have on average a lower cosine distance to the images (0.74) than the adversarial captions (0.91). It can therefore be assumed that friendly captions are more similar to the respective images than adversarial captions. 
 
-In the following, the IC algorithm is examined in detail in a preliminary investigation to determine whether it can achieve the goal of significantly changing the clipvision embeddings while maintaining visually similar images. For this purpose, each of the 1200 input images was perturbed with as many steps until the 50/50 criterion was reached (i.e. the cosine distance of the clipvision embeddings to the original image is exactly the same as to the cliptext embeddings of the perturbed caption). Additionally, the pixel correlation of the perturbed image to the original image was calculated for each iteration step. The average within a step was calculated for all 1200 input images. The results of this analysis are shown in Figure~\ref{fig:advpert_validation_ic_loss_curves}. 
+In the following, the IC algorithm is examined in detail in a preliminary investigation to determine whether it can achieve the goal of significantly changing the clipvision embeddings while maintaining visually similar images. For this purpose, each of the 1200 input images was perturbed with as many steps until the 50/50 criterion was reached (i.e.\ the cosine distance of the clipvision embeddings to the original image is exactly the same as to the cliptext embeddings of the perturbed caption). Additionally, the pixel correlation of the perturbed image to the original image was calculated for each iteration step. The average within a step was calculated for all 1200 input images. The results of this analysis are shown in Figure~\ref{fig:advpert_validation_ic_loss_curves}. 
 
 
 % Show how the loss is developing for the IC criterion 
@@ -124,7 +124,7 @@ Figure~\ref{fig:advpert_ic_qual_validation_evolution} shows a qualitative repres
     \caption{A nice image}\label{fig:advpert_validation_fgsm_loss_curves}
 \end{figure}
 
-FGSM is evaluated in the same way as the IC algorithm. Figure~\ref{fig:advpert_validation_fgsm_loss_curves} shows the same metrics as for IC. This time the x-axis shows not the iteration steps but the parameter epsilon, which influences how much the image may be changed in the single perturbation step. Since the FGSM algorithm always changes each pixel by the same value (with a different sign), the pixel change in the image must be exactly the same for the same epsilon (this is indicated by the same pixelCorrelation for both caption types). However, the cosine distance to the perturbation vector (caption) shows that FGSM is not able to approach the desired perturbation vector with increasing epsilon. It can be assumed that the changes here become too large to go in a specific direction. At least the distance to the original image increases with increasing epsilon, so that the increasing cos dist ratio with increasing epsilon depends only on the distance to the original image, but not on the proximity to the desired perturbation vector. 
+FGSM is evaluated in the same way as the IC algorithm. Figure~\ref{fig:advpert_validation_fgsm_loss_curves} shows the same metrics as for IC.\@ This time the x-axis shows not the iteration steps but the parameter epsilon, which influences how much the image may be changed in the single perturbation step. Since the FGSM algorithm always changes each pixel by the same value (with a different sign), the pixel change in the image must be exactly the same for the same epsilon (this is indicated by the same pixelCorrelation for both caption types). However, the cosine distance to the perturbation vector (caption) shows that FGSM is not able to approach the desired perturbation vector with increasing epsilon. It can be assumed that the changes here become too large to go in a specific direction. At least the distance to the original image increases with increasing epsilon, so that the increasing cos dist ratio with increasing epsilon depends only on the distance to the original image, but not on the proximity to the desired perturbation vector. 
 
 % Show the influence of friendly vs adversarial perturbation on PixCorr
     % Both for FGSM and for IC
@@ -161,52 +161,51 @@ For the reconstruction experiments, 5 perturbations were created for each of the
 
 Figure~\ref{fig:advpert_validation_chosen_qual} shows the original and perturbed versions for five images with the two algorithms, as previously shown, the selective artefacts can be seen with IC (particularly visible with the bowling pins) and with fgsm the uniform noise that was superimposed on the image. 
 
+\subsubsection{Changes in the Training process}
+
+Now with the perturbed images there are 6000 instead of 1200 training images. However there still are only 1200 averaged MRI recordings (for each image one). The rationale of the perturbation experiment is, that the MRI activation for the perturbed images could be very similar to the perturbed images in comparison to the original images (because they are visually similar). Thus, the 1200 averaged MRI recordings are duplicated 5 times, so that each of the 6000 perturbed images can be predicted by the corresponding MRI activation recording.
+
 
 \subsection{Results}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\textwidth]{plots/advpert_translator_ic_90-10.png}
-    \caption{A nice image}\label{fig:advpert_translator_ic_90}
-\end{figure}
+As it was shown in the previous section that the IC algorithm achieves the desired perturbation target better than FGSM, the results of the reconstructions with the IC algorithm are described below. The corresponding figures with the FGSM perturbations can be found in the Appendix. 
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=1\textwidth]{plots/advpert_translator_fgsm_0.03.png}
-%     \caption{A nice image}\label{fig:advpert_translator_fgsm_0}
-% \end{figure}
+Furthermore, the baseline reported in the following results is slightly different from the previous experiments. Since, as described above, the regression for the translator is trained with 6000 images (5 different perturbed versions of each input image), each input image for the baseline is also duplicated 5 times for the baseline, so that the baseline is also trained with 6000 images. This would be equivalent to an FGSM with an epsilon of 0. 
 
-
+\subsubsection{Translator Performance}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_test_ic_90-10.png}
-    \caption{A nice image}\label{fig:advpert_reconstruction_test_ic_90}
+    \includegraphics[width=1\textwidth]{plots/advpert_translator_ic_80-20.png}
+    \caption{A nice image}\label{fig:advpert_translator_ic_80}
 \end{figure}
+
+The results of the translator with the perturbed images are shown in Figure~\ref{fig:advpert_translator_ic_80} for both the natural test images and the artificial shapes. The natural test images show that the identification accuracy is lower than the baseline for both the friendly and the adversarial perturbations. This effect seems to be even stronger for the adversarial captions than for the friendly ones. A more ambiguous picture emerges for the artificial shapes. As in the previous experiments, the identification accuracy for the baseline is only slightly higher than the random probability. The perturbed conditions are also only higher than the baseline for some subjects, so it can be assumed that this is a random result. In summary, the perturbations did not lead to any improvement in the translators. The FGSM showed similar results (see also the figure~\ref{fig:advpert_translator_fgsm_0} in the appendix --- again, the decoder showed no improvement over the baseline). 
+
+
+
+\subsubsection{Reconstruction Performance}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_art_ic_90-10.png}
-    \caption{A nice image}\label{fig:advpert_reconstruction_art_ic_90}
+    \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_test_ic_80-20.png}
+    \caption{A nice image}\label{fig:advpert_reconstruction_test_ic_80}
 \end{figure}
 
+The results for the reconstruction of the natural test images with the IC algorithm are shown in Figure~\ref{fig:advpert_reconstruction_test_ic_80} and for the artificial shapes in Figure~\ref{fig:advpert_reconstruction_art_ic_80}. As with the decoder, the natural test images show no improvement due to the perturbations. Although the PixelCorrelation results show consistent performance, there is a high variance between subjects, especially in the adversarial perturbation condition. With the Dreamsim, as with the decoder, there is a deterioration in the results compared to the baseline, again more so with the adversarial perturbations than with the friendly perturbations. The same pattern can be seen for the clip accuracy, with a deterioration in the results that is more pronounced for the adversarial perturbations. The results of the perturbations with FGSM, shown in Figure~\ref{fig:advpert_reconstruction_test_fgsm_0.03} in the appendix, show no improvement over the baseline, as do the results with IC. 
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_test_fgsm_0.03.png}
-%     \caption{A nice image}\label{fig:advpert_reconstruction_test_fgsm_0.03}
-% \end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_art_ic_80-20.png}
+    \caption{A nice image}\label{fig:advpert_reconstruction_art_ic_80}
+\end{figure}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=1\textwidth]{plots/advpert_reconstruction_art_fgsm_0.03.png}
-%     \caption{A nice image}\label{fig:advpert_reconstruction_art_fgsm_0.03}
-% \end{figure}
-
+The results of the reconstructions of the artificial shapes in Figure~\ref{fig:advpert_reconstruction_art_ic_80} are similar to those of the natural test images. Again, the pixel correlation is difficult to interpret, but tends to be slightly worse for the perturbed images than for the baseline. The results for dreamsim are also ambiguous, but basically show no improvement due to the perturbations. The results for clip accuracy are again just above random probability. Again, the perturbed images show no improvement in performance over the baseline. The FGSM results in Figure~\ref{fig:advpert_reconstruction_art_fgsm_0.03} in the appendix also confirm this pattern for the artificial shapes: there is no improvement over the baseline. 
 
 
 \subsection{Discussion}
 
+- Erhöhte Varianz bei den Adversarial Perturbations in der Reconstruction (Wahrscheinlich dadurch, dass man so random die Captions auswählt)
 - Das Problem mit der Regression (wir lernen nur den Mittelwert)
 - Einschränkung: Man muss natürlich auch sagen, dass menschliche Aufmerksamkeit anders funktioniert, bei einzelnen kleinen Punkten kann ein größerer Unterschied wahrgenommen werden, als bei einem komplette verrauschten Bild
 - Man könnte natürlich auch die KI generierten captions genutzen
