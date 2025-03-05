@@ -67,7 +67,8 @@
   urldate = {2024-11-18},
   abstract = {Large datasets have been crucial to the success of deep learning models in the recent years, which keep performing better as they are trained with more labelled data. While there have been sustained efforts to make these models more data-efficient, the potential benefit of understanding the data itself, is largely untapped. Specifically, focusing on object recognition tasks, we wonder if for common benchmark datasets we can do better than random subsets of the data and find a subset that can generalize on par with the full dataset when trained on. To our knowledge, this is the first result that can find notable redundancies in CIFAR-10 and ImageNet datasets (at least 10\%). Interestingly, we observe semantic correlations between required and redundant images. We hope that our findings can motivate further research into identifying additional redundancies and exploiting them for more efficient training or data-collection.},
   copyright = {arXiv.org perpetual, non-exclusive license},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV),FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)}
+  keywords = {Computer Vision and Pattern Recognition (cs.CV),FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)},
+  file = {/Users/matt/Zotero/storage/77RLGCST/Birodkar et al. - 2019 - Semantic Redundancies in Image-Classification Data.pdf}
 }
 
 @book{bishopPatternRecognitionMachine2006,
@@ -107,6 +108,14 @@
   abstract = {Abstract             A theoretical understanding of generalization remains an open problem for many machine learning models, including deep networks where overparameterization leads to better performance, contradicting the conventional wisdom from classical statistics. Here, we investigate generalization error for kernel regression, which, besides being a popular machine learning method, also describes certain infinitely overparameterized neural networks. We use techniques from statistical mechanics to derive an analytical expression for generalization error applicable to any kernel and data distribution. We present applications of our theory to real and synthetic datasets, and for many kernels including those that arise from training deep networks in the infinite-width limit. We elucidate an inductive bias of kernel regression to explain data with simple functions, characterize whether a kernel is compatible with a learning task, and show that more data may impair generalization when noisy or not expressible by the kernel, leading to non-monotonic learning curves with possibly many peaks.},
   langid = {english},
   file = {/Users/matt/Zotero/storage/3XF74247/Canatar et al. - 2021 - Spectral bias and task-model alignment explain gen.pdf}
+}
+
+@inproceedings{chang2017deep,
+  title = {Deep Adaptive Image Clustering},
+  booktitle = {Proceedings of the {{IEEE}} International Conference on Computer Vision},
+  author = {Chang, Jianlong and Wang, Lingfeng and Meng, Gaofeng and Xiang, Shiming and Pan, Chunhong},
+  year = {2017},
+  pages = {5879--5887}
 }
 
 @misc{chenExploringNaturalnessAIGenerated2023,
@@ -216,7 +225,8 @@
   doi = {10.23919/SoftCOM62040.2024.10721725},
   urldate = {2024-11-15},
   copyright = {https://doi.org/10.15223/policy-029},
-  isbn = {978-953-290-138-2}
+  isbn = {978-953-290-138-2},
+  file = {/Users/matt/Zotero/storage/7PS9SDJZ/Durdov et al. - 2024 - Training Dataset Pruning Algorithm with Evaluation.pdf}
 }
 
 @article{engelFMRIHumanVisual1994,
@@ -1031,6 +1041,19 @@
   urldate = {2024-11-15},
   isbn = {978-1-5386-7449-9},
   file = {/Users/matt/Zotero/storage/P4FI5G93/Wang et al. - 2018 - Data Dropout Optimizing Training Data for Convolu.pdf}
+}
+
+@misc{wangDatasetDistillation2018,
+  title = {Dataset {{Distillation}}},
+  author = {Wang, Tongzhou and Zhu, Jun-Yan and Torralba, Antonio and Efros, Alexei A.},
+  year = {2018},
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.1811.10959},
+  urldate = {2025-03-05},
+  abstract = {Model distillation aims to distill the knowledge of a complex model into a simpler one. In this paper, we consider an alternative formulation called dataset distillation: we keep the model fixed and instead attempt to distill the knowledge from a large training dataset into a small one. The idea is to synthesize a small number of data points that do not need to come from the correct data distribution, but will, when given to the learning algorithm as training data, approximate the model trained on the original data. For example, we show that it is possible to compress 60,000 MNIST training images into just 10 synthetic distilled images (one per class) and achieve close to original performance with only a few gradient descent steps, given a fixed network initialization. We evaluate our method in various initialization settings and with different learning objectives. Experiments on multiple datasets show the advantage of our approach compared to alternative methods.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)},
+  file = {/Users/matt/Zotero/storage/8Q7VV242/Wang et al. - 2018 - Dataset Distillation.pdf}
 }
 
 @article{wangLessBetterUnweighted2020,

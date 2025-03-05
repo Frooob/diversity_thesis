@@ -3,20 +3,27 @@
 
 Zu meinen Ergebnissen:
 - PixelCorrelation ist nicht so gut (haben wir an vielen Ergebnissen schon irgendwie gesehen)
+    - Zum Beispiel dass durch die Erhöhung von falschem Mixing die Ergebnisse verbessert wurden
+    - Die random Reduction hat fast keinen Effekt gehabt
 
+- Decoding von brain-diffuser ist auch irgendwo fraglich, weil das so wenig sensibel auf die random reduction war
 
 Generell:
 - https://x.com/PTenigma/status/1893459033379807586
 - Erklärung dafür, dass der brain-diffuser in clip so viel besser ist, ist vielleicht einfach die image-naturalness
 - Man könnte auch noch den tatsächlichen test einfügen in die versatile diffusion
-- Andere Image generation Algorithms (innerhalb des brain-diffuser Algorithm)
-- Andere Decoder-Algorithmen (mindeye etc.)
+
+Konkrete Veränderung des setups das wir haben:
+
+- Andere "fertige" End2End-Algorithmen (mindeye etc.)
     - Man könnte auch komplette captions generieren lassen und nicht nur die Features wie bei unibrain \cite{maiUniBrainUnifyImage2023}
 
-
-- Um die rare concepts zu verbessern sagen \cite{samuelGeneratingImagesRare2024} dass man sich vor allem auf den diffusion input fokussieren muss
-
+- Andere Decoder Algorithmen 
+    - Statt der ridge regression, durch Methoden in dieser Arbeit könnten teilweise die Menge der Daten deutlich erhöht werden, wodurch möglicherweise auch etwas anderes als eine (Ridge) Regression verwendet werden könnte
 
 - Andere Reconstruction Algorithmen:
+    - Um die rare concepts zu verbessern sagen \cite{samuelGeneratingImagesRare2024} dass man sich vor allem auf den diffusion input fokussieren muss
+    - Andere Image generation Algorithms (innerhalb des brain-diffuser Algorithm, also versatile diffusion austauschen)
     - Theoretisch sind viele Contexts möglich bei dem versatile diffusion approach, mit einer weiterentwicklung könnte man so dann auch je nach image das regeneriert werden soll ganz unterschiedlichen kontext geben (das schreibe ich auch schon teilweise beim aicap Experiment)
+    - Generell kann man ja schauen, wie 
 

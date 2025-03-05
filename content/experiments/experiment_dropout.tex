@@ -11,10 +11,53 @@
 
 \subsection{Background}
 
+- Diese Arbeit soll sich mit der data diversity beschäftigen, schauen wie die Diversität auf verschiedenen Ebenen die Rekonstruktionsleistung beeinflussen kann
 
-Die Erwartung beschreiben, dass man mit low/mid level Features den VDVAE und den ICNN verbessern können sollte und mit high-level Features bestenfalls clip.
+- Da wir innerhalb unseres Versuchsaufbaus die Datendiversität nicht ohne weiteres erhöhen können wird zunächst versucht durch gezielte Reduktion der Menge an Trainingsdaten überprüft, wie Subsamples mit unterschiedlichen Sampling Criteria jeweils die Leistung beeinflussen können
 
-- Data Distillation ist eine Möglichkeit um ein komplett neuen Datensatz zu erzeugen. 
+- Related Works zur Reduction
+  - \cite{wangDataDropoutOptimizing2018} Entfernen unfavorable examples beim Training und versuchen dadurch die Generalisierungsfähigkeit zu verbessern
+    - They do a loss based dropout. It is done in an iterative fashion by checking how the loss on the validation set would change by removing single samples. They were able to increase the performance on classification and denoising tasks. 
+  - \cite{birodkarSemanticRedundanciesImageClassification2019}
+    - Finden semantisch redundante Bilder in öffentlichen Datensätzen
+  - \cite{senerActiveLearningConvolutional2018} Nutzen einen Core-Set approach um die Daten zu reduzieren
+    - Wollen damit rausfinden, welche Daten man am besten labeln soll, weil das ein teures unterfangen ist
+    - Machen das ganze beim active learning, also quasi während dem Training werden die samples gesucht und mithilfe der Distance der final layer während des Trainings werden die most meaningful samples gesucht
+    - So kann man bei gezielten Aussuchen während dem Trainingsprozess bessere subsamples mit gleicher Größe erzeugen
+  - \cite{guoDeepCoreComprehensiveLibrary2022} Coreset selection review
+    - Vergleichen 12 verschiedene popular methods und haben sie in einer Library zusammengebracht
+    - Random ist immernoch eine sehr starke baseline
+  % - \cite{kolluruLearningFewerImages2021}
+  %   - Haben die Datenreduktion auch auf einen medizinischen Kontext angewendet, in dem Bilder einer
+  - \cite{kolluruLearningFewerImages2021} Reducing Images and maintaining good performance can also be used in medical context 
+    - Images first with autoencoder in lower level space, then with PCA space even smaller and subselection, good performance with even 0.1 of training data
+  Grundsätzlich ist es also gut möglich das zu tun, auch wenn teilweise zufällige Auswahl von Bildern schon sehr gut ist und an manchen Stellen fraglich, ob man diese überhaupt großartig schlagen kann
+    
+
+Ziel soll es bei unser Method sein, dass wir verschiedene Feature Spaces wollen, 
+  - Wollen untersuchen ob die Diversity in high vs low level sich unterscheidet darin, wie die Rekonstruktionen funktionieren können
+  - Wir müssen also meaningful subselections innerhalb der unterschiedlichen Feature Spaces finden können. 
+  - Dazu müssen wir erstmal die Bilder clustern um innerhalb der feature spaces ähnliche Bilder voneinander zu trennen
+
+Arbeiten zum Clustering
+- \cite{maheshwariImageClusteringUsing2009} 
+  - Datensätze können geclustert werden und so ähnliche Bilder automatisch gefunden werden
+  - Dies kann aufgrund von einfachen features wie Farben getan weren
+- \cite{chang2017deep}
+  - Clustering mithilfe von Aktivationen in einem CNN (sodass nur der letzte Feature Vector benutzt wird) können abstraktere Cluster ermöglichen
+- \cite{mcinnesUMAPUniformManifold2018}
+  - Mit Dimensionality Reduction methods können clusterings in geringeren Dimensionen erstellt werden, dies kann sowohl auf den image space (sodass nur die puren Pixel Informationen genutzt werden) angewandt werden oder auf beliebige Feature spaces welche das Augenmerk auf höherwertige semantische Kategorien legen
+
+
+
+In unserem Wissen wurde bisher noch keine systematische Untersuchung durchgeführt, welche die Diversität auf verschiedenen Bild Ebenen (low-level vs high level) untersucht und miteinander vergleicht. Insebsondere gibt es noch keine Forschung dazu, wie anhand von solchen Kriterien ausgewählte subspaces 
+
+Hypothesen:
+- Low-level Sampling soll low-level Algorithmen VDVAE und ICNN verbessern
+  - Insbesondere auch bei den artificial Shapes
+- Mid-Level Sampling mit dreamsim sollte die besten Ergebnisse produzieren, da sowohl auf gleichmäßige Verteilung der low als auch high level features geachtet wird
+- Mit high-level Sampling bestenfalls clip translator und die clip-accuracy bei der reconstruction
+
 
 \subsection{Methods}
 
@@ -190,9 +233,21 @@ As the quantitative results of the reconstruction performance suggest, a qualita
 - Man könnte den dropout noch stärker machen
 - Durch die Evaluationskriterien wird sehr gut deutlich, DASS es einen Effekt gibt, aber nicht wie groß dieser ist und ob er wirklich bedeutsam ist
 - Wir sind leider nur in der Lage das Subsampling top-down durchzuführen, also wenn ein großer schöner voller Datensatz zur Verfügung steht, besser wäre ein Bottom-Up approach, bei dem kein voller Datensatz von nöten ist. Wo man quasi ohne das gesamte Datenuniversum zu kennen die Qualität (bzw. Diversität) zweier subsampled Datasets untersuchen kann. 
+- Idealerweise kriegen wir auch eine Möglichkeit hin, die Qualität eines Datensatzes im vorhinein bottom-up zu bestimmen. Also nicht so einen top-down subsampling approach zu fahren (man muss eine Gesamtmenge an Bildern haben), sondern eine Möglicheit hat top-down nach Bildern zu suchen, die das current subsample so gut wie möglich verbessern würden
+  - Top down wäre eine Metrik sehr cool, die bestimmen könnte, wie gut ein Datensatz ist in der Reconstruction, bevor man ihn für den tatsächlichen Versuch benutzen würde.
+
+- In dem review \cite{guoDeepCoreComprehensiveLibrary2022} Werden unterschiedliche Coreset Selection Methods vorgestellt
 - Man könnte auch weniger Cluster machen und dafür eins pro Cluster wählen, hat aber funkttioniert, also warum sollte ich.
-- Brain-diffser hat Probleme
-  -- Clipvision hat große Probleme bei den artificial Shapes überhaupt etwas zu lernen (siehe z.B. die Ergebnisse bei den random translatorn)
-  -- Auch Cliptext ist dort nicht besonders gut. 
-  -- Also versuchen wir im Folgenden genau an diesen beiden Stellschrauben was zu verändern um die Ergebnisse hier besser zu machen. 
 - Category based dropout could be used instead (first, find the categories in the dataset)
+- Data Distillation ist eine Möglichkeit um ein komplett neuen Datensatz zu erzeugen. 
+
+Überleitung zu den nächsten Experimenten (in zusammenfassender Form, die Überleitung selbst ist am Anfang des nächsten Chapters)
+- Brain-diffser hat Probleme
+  - Clipvision hat große Probleme bei den artificial Shapes überhaupt etwas zu lernen (siehe z.B. die Ergebnisse bei den random translatorn)
+  - Auch Cliptext ist dort nicht besonders gut. 
+  - Also versuchen wir im Folgenden genau an diesen beiden Stellschrauben was zu verändern um die Ergebnisse hier besser zu machen. 
+
+Discussion Related Works:
+  - Data Distillation Definition \cite{wangDatasetDistillation2018}
+  - Dataset distillation Review \cite{yuDatasetDistillationComprehensive2024}
+
