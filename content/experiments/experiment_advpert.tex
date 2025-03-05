@@ -24,7 +24,7 @@ Adversarial perturbations are small changes to the input data that are almost in
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/peturbation_example.png}
-    \caption{A nice image}\label{fig:perturbation_example}
+    \caption{Example of the perturbation process}\label{fig:perturbation_example}
 \end{figure}
 
 Adversarial perturbations have often been used in the past to enrich training data\cite{goodfellowExplainingHarnessingAdversarial2014,madryDeepLearningModels2019}. In particular, the goal was to increase robustness against adversarial attacks. In part, this so-called adversarial training degrades the generalisation of the model in the real input space\cite{kurakinAdversarialMachineLearning2017}. On the other hand, there are results showing that a deliberate enrichment of the training dataset with perturbed data can improve the performance on the test dataset\cite{xieAdversarialExamplesImprove2020}.  In another study on MRI data of knees, training data was partially augmented with the FGSM algorithm to improve a classification task\cite{yanEnhancingClassificationPerformance2023}. Overall, there is a mixed picture as to whether adversarial perturbations can be successfully used to enrich training data. However, as far as I know, there has been no attempt to use targeted white-box perturbation to introduce (or decrease) semantic information into training data to improve the training of ML models such as our Translator module. 
