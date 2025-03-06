@@ -11,52 +11,68 @@
 
 \subsection{Background}
 
-- Diese Arbeit soll sich mit der data diversity beschäftigen, schauen wie die Diversität auf verschiedenen Ebenen die Rekonstruktionsleistung beeinflussen kann
+This work will focus on how data diversity at different levels can affect the performance of image reconstruction from  brain activity. Since we cannot easily increase data diversity in our experimental setup, or at least it would require a lot of effort (recording new data takes time and money), we are trying to find ways to investigate how we can manipulate the data diversity  without recording new data. In this first experiment, we first take a backward approach: we reduce the training data in a guided way. The reduction is performed under different subsampling criteria, which relate to different aspects of data diversity. The aim is to find a way to reduce the training data that allows a reconstruction performance similar to (or even better than) the full data set. This will allow a first exploration of what aspects should be considered when creating a possible new data set, in order to achieve the best possible results in future new experiments where new brain activity can also be recorded. 
 
-- Da wir innerhalb unseres Versuchsaufbaus die Datendiversität nicht ohne weiteres erhöhen können wird zunächst versucht durch gezielte Reduktion der Menge an Trainingsdaten überprüft, wie Subsamples mit unterschiedlichen Sampling Criteria jeweils die Leistung beeinflussen können
+Many studies have explored how to achieve comparable results with reduced training data sets as with the full data set. Wang et al.\cite{wangDataDropoutOptimizing2018} used a two-step procedure, first training the model on the full training data and then using the validation data to delete any training samples that would reduce the overall loss on the validation data set. This allowed them to remove unfavourable training samples and end up training a new model on a reduced dataset, which actually performed better than the full dataset on the test data. Sener et al.\cite{senerActiveLearningConvolutional2018} were able to use a core set approach in active learning to ensure that the data selected during model training would yield the greatest improvement, thus achieving good classification even with greatly reduced datasets. They were able to outperform many other algorithms and a random subselection baseline. In a detailed review, Guo et al.\cite{guoDeepCoreComprehensiveLibrary2022} compared different approaches to core set selection, highlighting in particular that random subselection is still a very strong baseline, often outperforming many targeted core set approaches. In a dataset for medical imaging of the heart, Kolluru et al.\cite{kolluruLearningFewerImages2021} were able to reduce the data to almost a tenth of its original size and still achieve acceptable results. They first used an autoencoder to map the images into an abstract feature space, then used PCA to further reduce the dimensionality, and finally used the k-medoids algorithm to form as many clusters in the reduced space as there were images to be extracted from the dataset. In summary, targeted reduction of training data is a promising approach to achieving stable performance with significantly fewer resources during training (and presumably data collection). However, it is not trivial to find a way to reduce the data in such a way that a random baseline can be beaten.
 
-- Related Works zur Reduction
-  - \cite{wangDataDropoutOptimizing2018} Entfernen unfavorable examples beim Training und versuchen dadurch die Generalisierungsfähigkeit zu verbessern
-    - They do a loss based dropout. It is done in an iterative fashion by checking how the loss on the validation set would change by removing single samples. They were able to increase the performance on classification and denoising tasks. 
-  - \cite{birodkarSemanticRedundanciesImageClassification2019}
-    - Finden semantisch redundante Bilder in öffentlichen Datensätzen
-  - \cite{senerActiveLearningConvolutional2018} Nutzen einen Core-Set approach um die Daten zu reduzieren
-    - Wollen damit rausfinden, welche Daten man am besten labeln soll, weil das ein teures unterfangen ist
-    - Machen das ganze beim active learning, also quasi während dem Training werden die samples gesucht und mithilfe der Distance der final layer während des Trainings werden die most meaningful samples gesucht
-    - So kann man bei gezielten Aussuchen während dem Trainingsprozess bessere subsamples mit gleicher Größe erzeugen
-  - \cite{guoDeepCoreComprehensiveLibrary2022} Coreset selection review
-    - Vergleichen 12 verschiedene popular methods und haben sie in einer Library zusammengebracht
-    - Random ist immernoch eine sehr starke baseline
+
+% Viele Studien haben sich bisher der Forschung danach gewidment, wie man mit reduzierten Trainingsdatensätzen vergleichbare Ergebnisse wie mit dem vollen Datensatz erzielen kann. Wang et al.\cite{wangDataDropoutOptimizing2018} haben in einem zweistufigen Verfahren das model zunächst auf allen Trainingsdaten trainiert und dann mithilfe des Validation Datensatzes alle Trainingssamples gelöscht, welche dafür sorgten dass der gesamtloss auf dem Validation Dataset verringert würde. Dadurch konnten sie unfavorable Trainingssamples entfernen und mit dem reduzierten Datensatz am Ende ein neues model trainieren, was gegenüber dem vollen Datensatz sogar eine bessere Leistung erbracht hat. Sener et al.\cite{senerActiveLearningConvolutional2018} konnten mit einem core set approach beim active learning dafür sorgen, dass während des trainings des models jeweils die Daten ausgewählt wurden, welche das größte improvement erzeugen würden und damit gegenüber vielen anderen approaches und zufälliger Auswahl auch mit stark verringerten Datensätzen gute Klassifikation erzielen. In einem ausführlichen Review haben Guo et al.\cite{guoDeepCoreComprehensiveLibrary2022} verschiedene Ansätze für eine core set selection miteinander verglichen und dabei insbesonere auch herausgestellt, dass die random subselection nach wie vor eine sehr starke baseline ist, welche viele gezielte core-set approaches häufig in den Schatten stellt. In einem Datensatz für medizinische Bildgebung am Herzen konnten Kolluru et al.\cite{kolluruLearningFewerImages2021} die Daten auf fast ein Zehntel der ursprünglichen Größe reduzieren und weiterhin passable Ergebnisse erzielen. Hierzu haben sie zunächst mit einem autoencoder die Bilder in einen abstrakten Feature space gebracht, dann mit einer PCA die Dimensionalität weiter reduziert und schließlich mit dem k-medoids Algorithmus so viele Cluster in dem reduzierten space gebildet, wie Bilder aus dem Datensatz extrahiert werden sollen. Zusammenfassend lässt sich sagen, dass eine gezielte Reduktion von Trainingsdaten ein vielversprechender Ansatz ist, um mit bedeutend weniger Ressourcen beim Training (und mutmaßich bei der Datenerhebung) eine stabile Performance zu erzielen. Dabei ist es aber nicht trivial, einen Weg zu finden, die Daten so zu reduzieren, dass eine random baseline geschlagen werden kann.
+
+% - Diese Arbeit soll sich mit der data diversity beschäftigen, schauen wie die Diversität auf verschiedenen Ebenen die Rekonstruktionsleistung beeinflussen kann
+
+% - Da wir innerhalb unseres Versuchsaufbaus die Datendiversität nicht ohne weiteres erhöhen können wird zunächst versucht durch gezielte Reduktion der Menge an Trainingsdaten überprüft, wie Subsamples mit unterschiedlichen Sampling Criteria jeweils die Leistung beeinflussen können
+
+% - Related Works zur Reduction
+  % - \cite{wangDataDropoutOptimizing2018} Entfernen unfavorable examples beim Training und versuchen dadurch die Generalisierungsfähigkeit zu verbessern
+    % - They do a loss based dropout. It is done in an iterative fashion by checking how the loss on the validation set would change by removing single samples. They were able to increase the performance on classification and denoising tasks. 
+  % - \cite{senerActiveLearningConvolutional2018} Nutzen einen Core-Set approach um die Daten zu reduzieren
+    % - Wollen damit rausfinden, welche Daten man am besten labeln soll, weil das ein teures unterfangen ist
+    % - Machen das ganze beim active learning, also quasi während dem Training werden die samples gesucht und mithilfe der Distance der final layer während des Trainings werden die most meaningful samples gesucht
+    % - So kann man bei gezielten Aussuchen während dem Trainingsprozess bessere subsamples mit gleicher Größe erzeugen
+  % - \cite{guoDeepCoreComprehensiveLibrary2022} Coreset selection review
+  %   - Vergleichen 12 verschiedene popular methods und haben sie in einer Library zusammengebracht
+  %   - Random ist immernoch eine sehr starke baseline
   % - \cite{kolluruLearningFewerImages2021}
   %   - Haben die Datenreduktion auch auf einen medizinischen Kontext angewendet, in dem Bilder einer
-  - \cite{kolluruLearningFewerImages2021} Reducing Images and maintaining good performance can also be used in medical context 
-    - Images first with autoencoder in lower level space, then with PCA space even smaller and subselection, good performance with even 0.1 of training data
-  Grundsätzlich ist es also gut möglich das zu tun, auch wenn teilweise zufällige Auswahl von Bildern schon sehr gut ist und an manchen Stellen fraglich, ob man diese überhaupt großartig schlagen kann
+  % - \cite{kolluruLearningFewerImages2021} Reducing Images and maintaining good performance can also be used in medical context 
+    % - Images first with autoencoder in lower level space, then with PCA space even smaller and subselection, good performance with even 0.1 of training data
+  % Grundsätzlich ist es also gut möglich das zu tun, auch wenn teilweise zufällige Auswahl von Bildern schon sehr gut ist und an manchen Stellen fraglich, ob man diese überhaupt großartig schlagen kann
     
-
-Ziel soll es bei unser Method sein, dass wir verschiedene Feature Spaces wollen, 
-  - Wollen untersuchen ob die Diversity in high vs low level sich unterscheidet darin, wie die Rekonstruktionen funktionieren können
-  - Wir müssen also meaningful subselections innerhalb der unterschiedlichen Feature Spaces finden können. 
-  - Dazu müssen wir erstmal die Bilder clustern um innerhalb der feature spaces ähnliche Bilder voneinander zu trennen
-
-Arbeiten zum Clustering
-- \cite{maheshwariImageClusteringUsing2009} 
-  - Datensätze können geclustert werden und so ähnliche Bilder automatisch gefunden werden
-  - Dies kann aufgrund von einfachen features wie Farben getan weren
-- \cite{chang2017deep}
-  - Clustering mithilfe von Aktivationen in einem CNN (sodass nur der letzte Feature Vector benutzt wird) können abstraktere Cluster ermöglichen
-- \cite{mcinnesUMAPUniformManifold2018}
-  - Mit Dimensionality Reduction methods können clusterings in geringeren Dimensionen erstellt werden, dies kann sowohl auf den image space (sodass nur die puren Pixel Informationen genutzt werden) angewandt werden oder auf beliebige Feature spaces welche das Augenmerk auf höherwertige semantische Kategorien legen
+The aim of the study should be to investigate how maximising the low-level diversity of images (colours, shapes, textures) differs from maximising the high-level diversity (semantic concepts). To do this, the images would first need to be clustered in relation to the different features in order to make an appropriate subselection. Simple low-level clustering could be achieved by using only the distribution of colours in an image for clustering\cite{maheshwariImageClusteringUsing2009}. More modern approaches use the activation of pre-trained deep learning models to embed images in a more abstract feature space, so that semantic clustering can be performed in this space\cite{chang2017deep}. Birdokar et al.\cite{birodkarSemanticRedundanciesImageClassification2019} use different feature layers of a CNN to perform image clustering at different levels (low, mid and high level features). The late layer was especially useful for extracting the semantic features of the images and clustering was used to remove redundant samples. To make clustering algorithms such as k-means computationally feasible, the data from the extracted features must be reduced in dimensionality at best, UMAP\cite{mcinnesUMAPUniformManifold2018} is a modern algorithm that can be used for this. To cluster the images in a low-level space, UMAP can also be applied directly to the images without first embedding them in a feature space. After dimensionality reduction, the subsampled datasets can then be generated by clustering in the different feature levels and using those clusters as the subsampled dataset.
 
 
+% Ziel der Studie soll es sein, zu untersuchen, wie sich eine Maximierung der low-level Diversity der Bilder (Farben, Formen, Texturen) versus der high-level Diversity (semantische Konzepte) voneinander unterscheidet. Dazu müssten die Bilder zunächst im Bezug auf die verschiedenen Features geclustered werden, um eine enstprechede Subselection treffen zu können. Einfache low-level clusterings könnten erzielt werden, indem lediglich die Verteilung der Farben in einem Bild für das Clustering genutzt wird\cite{maheshwariImageClusteringUsing2009}. Modernere Ansätze benutzen die Aktivationen von vortrainierten Deep Learning Modellen um Bilder in einen abstrakteren Feature space einzubetten, sodass in diesem ein semantisches Clsutering vorgenommen werden kann\cite{chang2017deep}. Birdokar et al.\cite{birodkarSemanticRedundanciesImageClassification2019} nutzen unterschiedliche Feature Layer eines CNN um auf verschiedenen Ebenen ein Bildclustering vorzunehmen. Dabei konnten mithilfe der späten layer sehr gut die semantischen Features der Bilder extrahiert werden und durch clustering redundante Samples entfernt werden. Damit Clustering Algorithmen wie k-means rechnerisch durchführbar sind, müssen die Daten aus den extrahierten Features bestenfalls in ihrer Dimensionalität reduziert werden, UMAP\cite{mcinnesUMAPUniformManifold2018} ist ein moderner Algorithmus welcher dafür genutzt werden kann. Um die Bilder in einem low-level space zu clustern kann UMAP auch direkt auf die Bilder angewendet werden ohne sie davor in einen Feature Space einzubetten. Nach der Reduktion der Dimensionalität können dann in den unterschiedlichen Feature Ebenen durch clustering die Subsampled datasets erstellt werden.
 
-In unserem Wissen wurde bisher noch keine systematische Untersuchung durchgeführt, welche die Diversität auf verschiedenen Bild Ebenen (low-level vs high level) untersucht und miteinander vergleicht. Insebsondere gibt es noch keine Forschung dazu, wie anhand von solchen Kriterien ausgewählte subspaces 
+With respect to decoding brain activity, it has been previously found that different levels of the visual system are also better at predicting different feature levels (i.e., low-level brain structures such as V1 and V2 are better at predicting low-level features, and high-level structures such as PPA and FFA are better at predicting high-level features)\cite{horikawaGenericDecodingSeen2017}. However, to the best of our knowledge, there has been no systematic investigation of how maximising the diversity of training data at different feature levels (low-level vs. high-level) affects the decoding of brain data and the subsequent reconstruction of images. In other words, whether it is more important to have a training set that contains as many different semantic concepts as possible, or to use a training set that contains as many different low-level features (e.g. colours and shapes) as possible. 
 
-Hypothesen:
-- Low-level Sampling soll low-level Algorithmen VDVAE und ICNN verbessern
-  - Insbesondere auch bei den artificial Shapes
-- Mid-Level Sampling mit dreamsim sollte die besten Ergebnisse produzieren, da sowohl auf gleichmäßige Verteilung der low als auch high level features geachtet wird
-- Mit high-level Sampling bestenfalls clip translator und die clip-accuracy bei der reconstruction
+
+% Ziel soll es bei unser Method sein, dass wir verschiedene Feature Spaces wollen, 
+%   - Wollen untersuchen ob die Diversity in high vs low level sich unterscheidet darin, wie die Rekonstruktionen funktionieren können
+%   - Wir müssen also meaningful subselections innerhalb der unterschiedlichen Feature Spaces finden können. 
+%   - Dazu müssen wir erstmal die Bilder clustern um innerhalb der feature spaces ähnliche Bilder voneinander zu trennen
+
+% Arbeiten zum Clustering
+% - \cite{maheshwariImageClusteringUsing2009} 
+%   - Datensätze können geclustert werden und so ähnliche Bilder automatisch gefunden werden
+%   - Dies kann aufgrund von einfachen features wie Farben getan weren
+% - \cite{chang2017deep}
+%   - Clustering mithilfe von Aktivationen in einem CNN (sodass nur der letzte Feature Vector benutzt wird) können abstraktere Cluster ermöglichen
+% - \cite{birodkarSemanticRedundanciesImageClassification2019}
+%   - Finden semantisch redundante Bilder in öffentlichen Datensätzen
+%   - Nutzen dafür anfängliche, mittlere und späte layer in resnets
+%   - mit den späten layern konnte die semantische Redundanz am besten verringert werden
+% - \cite{mcinnesUMAPUniformManifold2018}
+  % - Mit Dimensionality Reduction methods können clusterings in geringeren Dimensionen erstellt werden, dies kann sowohl auf den image space (sodass nur die puren Pixel Informationen genutzt werden) angewandt werden oder auf beliebige Feature spaces welche das Augenmerk auf höherwertige semantische Kategorien legen
+
+% In unserem Wissen wurde bisher noch keine systematische Untersuchung durchgeführt, welche die Diversität auf verschiedenen Bild Ebenen (low-level vs high level) untersucht und miteinander vergleicht. Insebsondere gibt es noch keine Forschung dazu, wie anhand von solchen Kriterien ausgewählte subspaces beim brain-decoding genutzt werden.
+
+Our hypothesis is that the feature level at which the diversity of the training data is maximised will have a congruent effect on the performance on the test data. In particular, the decoding and reconstruction of artificial shapes should benefit from a focus on low-level feature diversity (since these have low semantic meaning). A focus on high-level diversity should improve performance on the natural test data (since the translator must be able to predict the semantic concepts of the images to properly reflect the test data). Furthermore, it is hypothesised that a focus on mid-level features (i.e. both low-level and high-level features) can provide the best overall performance on both test datasets. The baseline for all experiments should be random subselections to see if the diversity based subselections are actually able to have a real effect.
+
+% Hypothesen:
+% - Low-level Sampling soll low-level Algorithmen VDVAE und ICNN verbessern
+%   - Insbesondere auch bei den artificial Shapes
+% - Mid-Level Sampling mit dreamsim sollte die besten Ergebnisse produzieren, da sowohl auf gleichmäßige Verteilung der low als auch high level features geachtet wird
+% - Mit high-level Sampling bestenfalls clip translator und die clip-accuracy bei der reconstruction
 
 
 \subsection{Methods}
