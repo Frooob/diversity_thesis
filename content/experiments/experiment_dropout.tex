@@ -88,14 +88,14 @@ In order to evaluate diversity-based methods, it is important to establish a sui
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{plots/dropout_random_translator.png}
-    \caption{A nice image}\label{fig:dropout_random_translator}
+    \caption{Decoder Performance with different levels of random dropout}\label{fig:dropout_random_translator}
 \end{figure}
 
 % 2. Reconstruction Random Quant Plot test/art
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{plots/dropout_random_reconstruction.png}
-    \caption{A nice image}\label{fig:dropout_random_reconstruction}
+    \caption{Reconstruction performance with different levels of random dropout}\label{fig:dropout_random_reconstruction}
 \end{figure}
 
 The performance of the translator is shown in Figure~\ref{fig:dropout_random_translator} for both the natural test images and the artificial shapes. For the natural test images, the relationship between the number of training samples and performance is relatively similar for all the translators: the more training samples, the better. However, for the VDVAE and ICNN in particular, the performance curve for the translator flattens out at around 50\% training samples. The trend for the artificial shapes is somewhat different. The Clipvision translator does not seem to improve with an increasing number of training images, but is only just above the random level of 0.5. The Cliptext translator can show a performance above the random level from about 50\% of the training data set and then increases continuously. The VDVAE translator shows a slightly higher performance, but also saturates at about 50\% of the training data set. The same pattern is shown by the ICNN, whose performance is the best, but also does not improve from about 50\% of the training data set. 
@@ -107,14 +107,14 @@ The quantitative performance of the reconstruction algorithms is shown in Figure
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{plots/dropout_qual_random_test.JPEG}
-    \caption{A nice image}\label{fig:dropout_qual_random_test}
+    \caption{Qualitative results with different levels of random dropout on natural test images}\label{fig:dropout_qual_random_test}
 \end{figure}
 
 % 3.5 Reconstruction Random Qual Plot art
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{plots/dropout_qual_random_art.JPEG}
-    \caption{A nice image}\label{fig:dropout_qual_random_art}
+    \caption{Qualitative results with different levels of random dropout on artificial shapes}\label{fig:dropout_qual_random_art}
 \end{figure}
 
 The qualitative performance of the reconstructions with different training set sizes can be seen in Figure~\ref{fig:dropout_qual_random_test} for the natural test images and in Figure~\ref{fig:dropout_qual_random_art} for the artificial shapes. It can be seen that even with only 10\% of the training images, distinctive features of the images can be reconstructed. However, it can also be seen that the quality of the reconstructions improves as the amount of training data increases. For example, the Brain Diffuser is not yet able to correctly classify the snowmobile as a vehicle with a small amount of training data, or the outlines of the goldfish are not yet nearly correct with the ICNN.\@ Interestingly, the reconstruction of the brain diffuser's aircraft is better with a small number of training samples than with the full data set. This is probably because the VDVAE, which produced artefacts for this image, still works with the small number of training samples. For the artificial shapes, there is a visible improvement in the quality of the reconstruction, especially for the ICNN, as the number of training samples increases. This goes along with the quantitative results.
@@ -230,7 +230,7 @@ Also for the artificial shapes in Figure~\ref{fig:dropout_eval_reconstruction_ar
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_qual_eval_icnn_test.JPEG}
-  \caption{A nice image}\label{fig:dropout_qual_eval_icnn_test}
+  \caption{Qualitative Results for different dropout strategies with the ICNN on natural test images}\label{fig:dropout_qual_eval_icnn_test}
 \end{figure}
 
 As the quantitative results of the reconstruction performance suggest, a qualitative assessment of the differences in the reconstruction is difficult. The ICNN results for the natural test images are shown in Figure~\ref{fig:dropout_qual_eval_icnn_test} and for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}. Differences in the quality of the reconstruction are difficult to determine; although it is clear that at least some reconstruction quality can be achieved in all conditions, the slight improvement of the feature spaces in contrast to the random baseline  seen in the quantitative results is not immediately apparent in the actual images. Likewise, for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}, the slight degradation in the feature space results compared to the random sample is not directly apparent from the qualitative results. The quantitative results for the brain diffuser were even more ambiguous, so no major differences can be seen in the qualitative analysis of the images. The reconstructed images for the brain diffuser can be found in the appendix (Figure~\ref{fig:dropout_qual_eval_bd_test} for the natural test images and Figure~\ref{fig:dropout_qual_eval_bd_art} for the artificial shapes).
@@ -239,7 +239,7 @@ As the quantitative results of the reconstruction performance suggest, a qualita
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_qual_eval_icnn_art.JPEG}
-  \caption{A nice image}\label{fig:dropout_qual_eval_icnn_art}
+  \caption{Qualitative Results for different dropout strategies with the ICNN on artificial shapes}\label{fig:dropout_qual_eval_icnn_art}
 \end{figure}
 
 \subsection{Discussion}
@@ -290,7 +290,7 @@ The quantitative results of the reconstructions with the monotonous and heteroge
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_discussion_test.JPEG}
-  \caption{Qualitative Reconstruction Results for monotone vs.\ heterogeneous training images on Natural Test Images}\label{fig:dropout_discussion_test}
+  \caption{Qualitative Results for monotone vs.\ heterogeneous training images on Natural Test Images}\label{fig:dropout_discussion_test}
 \end{figure}
 
 \subsubsection{Future Directions}
