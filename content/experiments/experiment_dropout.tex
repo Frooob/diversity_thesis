@@ -43,7 +43,7 @@ The aim of the study should be to investigate how maximising the low-level diver
 
 % Ziel der Studie soll es sein, zu untersuchen, wie sich eine Maximierung der low-level Diversity der Bilder (Farben, Formen, Texturen) versus der high-level Diversity (semantische Konzepte) voneinander unterscheidet. Dazu müssten die Bilder zunächst im Bezug auf die verschiedenen Features geclustered werden, um eine enstprechede Subselection treffen zu können. Einfache low-level clusterings könnten erzielt werden, indem lediglich die Verteilung der Farben in einem Bild für das Clustering genutzt wird\cite{maheshwariImageClusteringUsing2009}. Modernere Ansätze benutzen die Aktivationen von vortrainierten Deep Learning Modellen um Bilder in einen abstrakteren Feature space einzubetten, sodass in diesem ein semantisches Clsutering vorgenommen werden kann\cite{chang2017deep}. Birdokar et al.\cite{birodkarSemanticRedundanciesImageClassification2019} nutzen unterschiedliche Feature Layer eines CNN um auf verschiedenen Ebenen ein Bildclustering vorzunehmen. Dabei konnten mithilfe der späten layer sehr gut die semantischen Features der Bilder extrahiert werden und durch clustering redundante Samples entfernt werden. Damit Clustering Algorithmen wie k-means rechnerisch durchführbar sind, müssen die Daten aus den extrahierten Features bestenfalls in ihrer Dimensionalität reduziert werden, UMAP\cite{mcinnesUMAPUniformManifold2018} ist ein moderner Algorithmus welcher dafür genutzt werden kann. Um die Bilder in einem low-level space zu clustern kann UMAP auch direkt auf die Bilder angewendet werden ohne sie davor in einen Feature Space einzubetten. Nach der Reduktion der Dimensionalität können dann in den unterschiedlichen Feature Ebenen durch clustering die Subsampled datasets erstellt werden.
 
-With respect to decoding brain activity, it has been previously found that different levels of the visual system are also better at predicting different feature levels (i.e., low-level brain structures such as V1 and V2 are better at predicting low-level features, and high-level structures such as PPA and FFA are better at predicting high-level features)\cite{horikawaGenericDecodingSeen2017}. However, to the best of our knowledge, there has been no systematic investigation of how maximising the diversity of training data at different feature levels (low-level vs. high-level) affects the decoding of brain data and the subsequent reconstruction of images. In other words, whether it is more important to have a training set that contains as many different semantic concepts as possible, or to use a training set that contains as many different low-level features (e.g. colours and shapes) as possible. 
+With respect to decoding brain activity, it has been previously found that different levels of the visual system are also better at predicting different feature levels (i.e., low-level brain structures such as V1 and V2 are better at predicting low-level features, and high-level structures such as PPA and FFA are better at predicting high-level features)\cite{horikawaGenericDecodingSeen2017}. However, to the best of our knowledge, there has been no systematic investigation of how maximising the diversity of training data at different feature levels (low-level vs.\ high-level) affects the decoding of brain data and the subsequent reconstruction of images. In other words, whether it is more important to have a training set that contains as many different semantic concepts as possible, or to use a training set that contains as many different low-level features (e.g.\ colours and shapes) as possible. 
 
 
 % Ziel soll es bei unser Method sein, dass wir verschiedene Feature Spaces wollen, 
@@ -66,7 +66,7 @@ With respect to decoding brain activity, it has been previously found that diffe
 
 % In unserem Wissen wurde bisher noch keine systematische Untersuchung durchgeführt, welche die Diversität auf verschiedenen Bild Ebenen (low-level vs high level) untersucht und miteinander vergleicht. Insebsondere gibt es noch keine Forschung dazu, wie anhand von solchen Kriterien ausgewählte subspaces beim brain-decoding genutzt werden.
 
-Our hypothesis is that the feature level at which the diversity of the training data is maximised will have a congruent effect on the performance on the test data. In particular, the decoding and reconstruction of artificial shapes should benefit from a focus on low-level feature diversity (since these have low semantic meaning). A focus on high-level diversity should improve performance on the natural test data (since the translator must be able to predict the semantic concepts of the images to properly reflect the test data). Furthermore, it is hypothesised that a focus on mid-level features (i.e. both low-level and high-level features) can provide the best overall performance on both test datasets. The baseline for all experiments should be random subselections to see if the diversity based subselections are actually able to have a real effect.
+Our hypothesis is that the feature level at which the diversity of the training data is maximised will have a congruent effect on the performance on the test data. In particular, the decoding and reconstruction of artificial shapes should benefit from a focus on low-level feature diversity (since these have low semantic meaning). A focus on high-level diversity should improve performance on the natural test data (since the translator must be able to predict the semantic concepts of the images to properly reflect the test data). Furthermore, it is hypothesised that a focus on mid-level features (i.e.\ both low-level and high-level features) can provide the best overall performance on both test datasets. The baseline for all experiments should be random subselections to see if the diversity based subselections are actually able to have a real effect.
 
 % Hypothesen:
 % - Low-level Sampling soll low-level Algorithmen VDVAE und ICNN verbessern
@@ -199,7 +199,7 @@ The performance of the three trained translators of the brain diffuser and the V
   \caption{Translator performance (0.25 data fraction) for Natural Test Images}\label{fig:dropout_eval_translator_test}
 \end{figure}
 
-The artificial shapes in Figure~\ref{fig:dropout_eval_translator_art} show that the two clip translators are not able to significantly predict the features beyond random probability. This is independent of the subsampling space. The performance of the VDVAE translator is slightly better, with all subsamples tending to be better than the random probability. In particular, the performance of the low-level feature space pixel seems to have a slight advantage over the other subsampling strategies. For the ICNN translator, on the other hand, the effect of the natural test images seems to have been reversed; for the Pixel and Dreamsim feature spaces, the performance even looks slightly worse than with random subsampling. Within the clipvision feature space, the variance between the subjects is really high, thus the results cannot easily be interpreted.
+The artificial shapes in Figure~\ref{fig:dropout_eval_translator_art} show that the two clip translators are not able to predict the features significantly beyond random probability. This is independent of the subsampling space. The performance of the VDVAE translator is slightly better, with all subsamples tending to be better than the random probability. In particular, the performance of the low-level pixel feature space seems to have a slight advantage over the other subsampling strategies. For the ICNN translator, on the other hand, the effect of the natural test images seems to have been reversed; for the Pixel and Dreamsim feature spaces, the performance even looks slightly worse than with random subsampling. Within the clipvision feature space, the variance between the subjects is really high, thus the results cannot easily be interpreted.
 
 \begin{figure}[ht]
   \centering
@@ -216,7 +216,7 @@ The artificial shapes in Figure~\ref{fig:dropout_eval_translator_art} show that 
   \caption{Reconstruction Performance (0.25 data fraction) for Natural Test Images}\label{fig:dropout_eval_reconstruction_test}
 \end{figure}
 
-The quantitative results of the reconstructions using the four different subsamples are shown in Figure~\ref{fig:dropout_eval_reconstruction_test} for the natural test images and in Figure~\ref{fig:dropout_eval_reconstruction_art} for the artificial shapes. The three previously described criteria of PixelCorrelation, Dreamsim-similarity and Clip-Accuracy are specified for the Brain Diffuser and ICNN algorithms respectively. For the natural test images, there is no discernible difference between the random subselection and the three diversity-based subsamples for the Brain Diffuser in any of the three metrics. The results are similar for the ICNN. Although the translator performance was slightly improved beforehand, these effects seem to have only a partial and minor impact on the reconstruction performance. Only with the help of the Dreamsim-sim metric is there a slight increase in performance across all three feature spaces in contrast to the baseline. There are no differences between the feature spaces however.
+The quantitative results of the reconstructions using the four different subsamples are shown in Figure~\ref{fig:dropout_eval_reconstruction_test} for the natural test images and in Figure~\ref{fig:dropout_eval_reconstruction_art} for the artificial shapes. The three previously described criteria of PixelCorrelation, Dreamsim-similarity and Clip-Accuracy are specified for the Brain Diffuser and ICNN algorithms respectively. For the natural test images, there is no discernible difference between the random subselection and the three diversity-based subsamples for the Brain Diffuser in any of the three metrics. The results are similar for the ICNN.\@ Although the translator performance was improved beforehand, these effects seem to have only a minor impact on the reconstruction performance. Only with the help of the Dreamsim-sim metric is there a slight increase in performance across all three feature spaces in contrast to the baseline. There are again no differences between the feature spaces however.
 
 \begin{figure}[ht]
   \centering
@@ -225,10 +225,7 @@ The quantitative results of the reconstructions using the four different subsamp
 \end{figure}
 
 
-Also for the artificial shapes in Figure~\ref{fig:dropout_eval_reconstruction_art}, the differences in reconstruction performance between the different feature spaces are small to not noticeable. For the brain diffuser it looks as if the pixel correlation with a dropout is slightly increased in the pixel subspace compared to the baseline. There are no visible differences in the other metrics. In the ICNN, the Dreamsim simulation appears slightly reduced in Pixels subspace and Clipvision subspace compared to the baseline. There are no visible differences in the Dreamsim subspace. 
-
-As the quantitative results of the reconstruction performance suggest, a qualitative assessment of the differences in the reconstruction is difficult. The ICNN results for the natural test images are shown in Figure~\ref{fig:dropout_qual_eval_icnn_test} and for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}. Differences in the quality of the reconstruction are difficult to determine; although it is clear that at least some reconstruction quality can be achieved in all conditions, the slight improvement of the feature spaces in contrast to the random baseline  seen in the quantitative results is not immediately apparent in the actual images. Likewise, for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}, the slight degradation in the feature space results compared to the random sample is not directly apparent from the qualitative results. The quantitative results for the brain diffuser were even more ambiguous, so no major differences can be seen in the qualitative analysis of the images. The reconstructed images for the brain diffuser can be found in the appendix (Figure~\ref{fig:dropout_qual_eval_bd_test} for the natural test images and Figure~\ref{fig:dropout_qual_eval_bd_art} for the artificial shapes).
-
+Also for the artificial shapes in Figure~\ref{fig:dropout_eval_reconstruction_art}, the differences in reconstruction performance between the different feature spaces are small. For the brain diffuser it looks as if the pixel correlation with a dropout is slightly increased in the pixel subspace compared to the baseline. There are no visible differences in the other metrics. In the ICNN, the Dreamsim similarity appears slightly reduced in Pixels subspace and Clipvision subspace compared to the baseline. There are no visible differences in the Dreamsim subspace. 
 
 \begin{figure}[ht]
   \centering
@@ -236,34 +233,94 @@ As the quantitative results of the reconstruction performance suggest, a qualita
   \caption{A nice image}\label{fig:dropout_qual_eval_icnn_test}
 \end{figure}
 
+As the quantitative results of the reconstruction performance suggest, a qualitative assessment of the differences in the reconstruction is difficult. The ICNN results for the natural test images are shown in Figure~\ref{fig:dropout_qual_eval_icnn_test} and for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}. Differences in the quality of the reconstruction are difficult to determine; although it is clear that at least some reconstruction quality can be achieved in all conditions, the slight improvement of the feature spaces in contrast to the random baseline  seen in the quantitative results is not immediately apparent in the actual images. Likewise, for the artificial shapes in Figure~\ref{fig:dropout_qual_eval_icnn_art}, the slight degradation in the feature space results compared to the random sample is not directly apparent from the qualitative results. The quantitative results for the brain diffuser were even more ambiguous, so no major differences can be seen in the qualitative analysis of the images. The reconstructed images for the brain diffuser can be found in the appendix (Figure~\ref{fig:dropout_qual_eval_bd_test} for the natural test images and Figure~\ref{fig:dropout_qual_eval_bd_art} for the artificial shapes).
+
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_qual_eval_icnn_art.JPEG}
   \caption{A nice image}\label{fig:dropout_qual_eval_icnn_art}
 \end{figure}
 
-
-
 \subsection{Discussion}
 
-- Man könnte den dropout noch stärker machen
-- Durch die Evaluationskriterien wird sehr gut deutlich, DASS es einen Effekt gibt, aber nicht wie groß dieser ist und ob er wirklich bedeutsam ist
-- Wir sind leider nur in der Lage das Subsampling top-down durchzuführen, also wenn ein großer schöner voller Datensatz zur Verfügung steht, besser wäre ein Bottom-Up approach, bei dem kein voller Datensatz von nöten ist. Wo man quasi ohne das gesamte Datenuniversum zu kennen die Qualität (bzw. Diversität) zweier subsampled Datasets untersuchen kann. 
-- Idealerweise kriegen wir auch eine Möglichkeit hin, die Qualität eines Datensatzes im vorhinein bottom-up zu bestimmen. Also nicht so einen top-down subsampling approach zu fahren (man muss eine Gesamtmenge an Bildern haben), sondern eine Möglicheit hat top-down nach Bildern zu suchen, die das current subsample so gut wie möglich verbessern würden
-  - Top down wäre eine Metrik sehr cool, die bestimmen könnte, wie gut ein Datensatz ist in der Reconstruction, bevor man ihn für den tatsächlichen Versuch benutzen würde.
+% Results Zusammenfassung:
 
-- In dem review \cite{guoDeepCoreComprehensiveLibrary2022} Werden unterschiedliche Coreset Selection Methods vorgestellt
-- Man könnte auch weniger Cluster machen und dafür eins pro Cluster wählen, hat aber funkttioniert, also warum sollte ich.
-- Category based dropout could be used instead (first, find the categories in the dataset)
-- Data Distillation ist eine Möglichkeit um ein komplett neuen Datensatz zu erzeugen. 
+% brain-diffuser:
+%   - Bei den brain-diffuser decodern hat sich kein großer Unterschied gezeigt zwischen den subsamples
+%     - Low level Pixel Space hat decoding beim low level VDVAE mutmaßlich etwas gesteigert bei den artificial Shapes. Der Effekt scheint aber nicht unbedingt stabil zu sein und könnte zufällig sein.
+%   - Bei der Reconstruction
+%     - Natural Test Images kein Effekt
+%     - Artificial Images in der pixCorr leicht verbesser
 
-Überleitung zu den nächsten Experimenten (in zusammenfassender Form, die Überleitung selbst ist am Anfang des nächsten Chapters)
-- Brain-diffser hat Probleme
-  - Clipvision hat große Probleme bei den artificial Shapes überhaupt etwas zu lernen (siehe z.B. die Ergebnisse bei den random translatorn)
-  - Auch Cliptext ist dort nicht besonders gut. 
-  - Also versuchen wir im Folgenden genau an diesen beiden Stellschrauben was zu verändern um die Ergebnisse hier besser zu machen. 
+% icnn:
+%   - Beim ICNN kann der Decoder verbessert werden durch das subsampling beim Test Datensatz
+%     - Kein Unterschied zwischen den Subsampling methoden aber
+%     - Bei ICNN ist der Zusammehang bei den artificial Shapes sogar umgedreht (also schlechter beim Subsampling)
+%   - Reconstruction ist bei natural test images verbessert
+%     - bei Artificial Shapes tendenziell verschlechtert
+  
+The hypotheses could mostly not be confirmed, but some interesting phenomena occurred. For the brain diffuser, there were generally few differences between the different subsamples. Only for the artificial shapes could the decoder for the translator and also the pixel correlation of the reconstruction be increased by low-level subsampling. This is consistent with the hypothesis that low-level subsampling improves low-level reconstruction. However, as this effect can only be measured with the pixel correlation, it should be treated with caution and could only have occurred by chance. With the ICNN, however, the results were somewhat clearer. In the case of the natural test images, the decoder could be improved by any type of subsampling, and the subsequent reconstructions could also be improved (measured with Dreamsim). Interestingly, this effect is exactly the opposite for the artificial shapes. Here, diversity-based subsampling even seems to be disadvantageous compared to random subsampling: both the decoder and the reconstruction performance decrease compared to the baseline. 
 
-Discussion Related Works:
-  - Data Distillation Definition \cite{wangDatasetDistillation2018}
-  - Dataset distillation Review \cite{yuDatasetDistillationComprehensive2024}
+\subsubsection{Exploring the influence of monotone training data}
+In the following, we will further investigate why the performance of the artificial shapes is presumably reduced by diversity-based subsampling. A closer look at the training images reveals that there are some images that show individual central objects with a monotonous (usually white) background. It could be that these are similar in concept to the artificial shapes. In this sense, the artificial shapes would not really be out-of-distribution samples, because a monotone background of the training images is not really natural either. It is investigated whether these images have a significant influence on the reconstruction. In order to test this, a new, reduced training data set is created, which mainly contains these images. A simple algorithm is used to identify these images in the training dataset automatically: The colour values for each pixel in all images are counted, and then the images are sorted according to how often the most frequent pixel occurs in each image (so an image with a white background would have the colour white, which occurs extremely often). In figure~\ref{fig:dropout_discussion_monohetero_qual}, the 5 most monotonous images found by the algorithm (i.e.\ those where the most frequent colour occurs very often) are compared with the 5 most heterogeneous images (i.e.\ those where the colours are more evenly distributed). As can be seen, the subdivision of the images using this algorithm worked well. In the following, decoders consisting of 0.25 (i.e. 300 images) of the training data for the most homogeneous and heterogeneous as defined by the algorithm explained above set are trained again.
 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/dropout_discussion_monohetero_qual.jpeg}
+  \caption{Comparison of monotone and heterogeneous training images}\label{fig:dropout_discussion_monohetero_qual}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/dropout_discussion_reconstruction_icnn.png}
+  \caption{ICNN Reconstruction Results for monotone vs.\ heterogeneous training images}\label{fig:dropout_discussion_reconstruction_icnn}
+\end{figure}
+
+
+The quantitative results of the reconstructions with the monotonous and heterogeneous subsample training datasets are shown in Figure~\ref{fig:dropout_discussion_reconstruction_icnn} for the ICNN and in Figure Figure~\ref{fig:dropout_discussion_reconstruction_bd} for the brain-diffuser (the results for each individual decoder for the monotonous vs.\ heterogeneous data sets are shown in the appendix in figures~\ref{fig:dropout_discussion_translator_id_acc_cliptext},~\ref{fig:dropout_discussion_translator_id_acc_clipvision},~\ref{fig:dropout_discussion_translator_id_acc_vdvae},~\ref{fig:dropout_discussion_translator_id_acc_icnn}). In the case of the ICNN, random dropout performs better than both monotonous and heterogeneous subsampling. Contrary to expectation, monotonous subsampling actually performs worse than heterogeneous subsampling with artificial shapes. However, the results for the brain diffuser are quite different. As expected, random subsampling performs best for natural test images. For the artificial shapes, however, there is a clear effect: monotonous subsampling leads to significantly better performance than heterogeneous subsampling. This effect is also best illustrated by the qualitative reconstructions for the natural test images in Figure~\ref{fig:dropout_discussion_test} (the qualitative results for the artificial shapes are shown in Figure~\ref{fig:dropout_discussion_art} in the appendix): for each image reconstructed with the brain diffuser, a monochrome background can be seen in the monotonous condition. In contrast, all backgrounds show multiple details when the heterogeneous training data is used. This also shows why the results of the ICNN for the artificial shapes are not necessarily improved by using monotonous training: the reconstructions with the ICNN have a comparatively neutral background when both monotonous and heterogeneous training data are used. The insights that can be gained from this additional investigation are twofold. On the one hand, the brain diffuser can be strongly conditioned to reconstruct single objects with monotonous backgrounds, so that the performance for the artificial images can be greatly improved by the background of the images alone. On the other hand, it can be seen that the ICNN generally seems to produce images with neutral backgrounds and a central object in the middle (this can also be checked with the other qualitative results in this experiment). It therefore seems that the ICNN has a bias towards this type of image, where single central objects are displayed on a neutral background, regardless of the nature of the training data. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/dropout_discussion_reconstruction_bd.png}
+  \caption{Brain-Diffuser Reconstruction Results for monotone vs.\ heterogeneous training images}\label{fig:dropout_discussion_reconstruction_bd}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/dropout_discussion_test.JPEG}
+  \caption{Qualitative Reconstruction Results for monotone vs.\ heterogeneous training images on Natural Test Images}\label{fig:dropout_discussion_test}
+\end{figure}
+
+\subsubsection{Future Directions}
+
+The results of the dropout experiment showed that the diversity of the training data set can have a significant influence on the decoding of brain activity and the reconstruction of images. However, the exact direction and nature of the influence on the  reconstructions is still unclear. The results of this study were inconclusive in this respect. Further research is needed on the influence of the diversity of training images on brain decoding.To this end, further different types of dropout could be used. For example, it would be possible to use dropout based on the actual semantic categories (e.g.\ using the stimulus code), so that the results do not depend on the UMAP embedding and random initial conditions during clustering. Furthermore, a more sophisticated algorithm could be used to separate the monotonous from the heterogeneous images that would also include semantic information. 
+
+One limitation of the study is that subsampling is only possible top-down. This means that a large data set is required, which is first reduced. Ideally, there would be a way to evaluate the quality of an existing subsample iteratively from a bottom-up perspective  to determine what an image should look like that needs to be added to the dataset to improve the performance. One possibility could be an active learning approach\cite{senerActiveLearningConvolutional2018, guoDeepCoreComprehensiveLibrary2022}, which could be used during training to always look for the next image that would improve the performance. Ultimately, the aim of this study was to investigate how the nature of a dataset needs to be in order to optimise reconstruction performance. These results could then be used to create optimised training data sets that would be shown to subjects in future MRI studies. This optimised training data set does not necessarily have to consist of a sub-sample of natural images. Dataset distillation\cite{wangDatasetDistillation2018,yuDatasetDistillationComprehensive2024} could be used to create an artificial training dataset that is optimised to improve the decoders, allowing better generalisation to all possible test images. Further research is needed to determine what such an artificial training dataset might look like and whether, for example, it is necessary to show subjects natural training images at all or if it might be better to only show abstract, generated images. 
+
+
+
+% Innerhalb meiner Bubble:
+% - Man könnte den dropout noch stärker machen
+% - Category based dropout could be used instead (first, find the categories in the dataset)
+% - Wir sind leider nur in der Lage das Subsampling top-down durchzuführen, also wenn ein großer schöner voller Datensatz zur Verfügung steht, besser wäre ein Bottom-Up approach, bei dem kein voller Datensatz von nöten ist. Wo man quasi ohne das gesamte Datenuniversum zu kennen die Qualität (bzw. Diversität) zweier subsampled Datasets untersuchen kann. 
+% - Idealerweise kriegen wir auch eine Möglichkeit hin, die Qualität eines Datensatzes im vorhinein bottom-up zu bestimmen. Also nicht so einen top-down subsampling approach zu fahren (man muss eine Gesamtmenge an Bildern haben), sondern eine Möglicheit hat top-down nach Bildern zu suchen, die das current subsample so gut wie möglich verbessern würden
+  % - Top down wäre eine Metrik sehr cool, die bestimmen könnte, wie gut ein Datensatz ist in der Reconstruction, bevor man ihn für den tatsächlichen Versuch benutzen würde.
+
+% Mit anderer Literatur
+% - In dem review \cite{guoDeepCoreComprehensiveLibrary2022} Werden unterschiedliche Coreset Selection Methods vorgestellt
+  % - Wir könnten auch wie \cite{senerActiveLearningConvolutional2018} einen active learning approach probieren, der beim training vom decoder versucht jeweils immer die Bilder rauszusuchen, die den größten Effekt haben und dadurch ein ideales subsample aufbauen
+% - Man könnte auch weniger Cluster machen und dafür eins pro Cluster wählen, hat aber funkttioniert, also warum sollte ich.
+% - Data Distillation ist eine Möglichkeit um ein komplett neuen Datensatz zu erzeugen. 
+%   - Data Distillation Definition \cite{wangDatasetDistillation2018}
+%   - Dataset distillation Review \cite{yuDatasetDistillationComprehensive2024}
+
+
+In summary, this experiment showed that diversity-based subsampling has an impact on reconstruction performance, but that this impact needs further investigation in terms of direction and exact magnitude. In particular, the brain diffuser algorithm performed very poorly with the artificial shapes, and its decoder performance improved only marginally even with a larger amount of training data (see the random dropout results). The following results therefore look for ways to improve the performance of the brain diffuser, especially with artificial shapes.
+
+% Überleitung zu den nächsten Experimenten (in zusammenfassender Form, die Überleitung selbst ist am Anfang des nächsten Chapters)
+% - Brain-diffser hat Probleme
+%   - Clipvision hat große Probleme bei den artificial Shapes überhaupt etwas zu lernen (siehe z.B. die Ergebnisse bei den random translatorn)
+%   - Auch Cliptext ist dort nicht besonders gut. 
+%   - Also versuchen wir im Folgenden genau an diesen beiden Stellschrauben was zu verändern um die Ergebnisse hier besser zu machen. 
