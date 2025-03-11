@@ -66,13 +66,13 @@ With respect to decoding brain activity, it has been previously found that diffe
 
 % In unserem Wissen wurde bisher noch keine systematische Untersuchung durchgeführt, welche die Diversität auf verschiedenen Bild Ebenen (low-level vs high level) untersucht und miteinander vergleicht. Insebsondere gibt es noch keine Forschung dazu, wie anhand von solchen Kriterien ausgewählte subspaces beim brain-decoding genutzt werden.
 
-Our hypothesis is that the feature level at which the diversity of the training data is maximised will have a congruent effect on the performance on the test data. In particular, the decoding and reconstruction of artificial shapes should benefit from a focus on low-level feature diversity (since these have low semantic meaning). A focus on high-level diversity should improve performance on the natural test data (since the translator must be able to predict the semantic concepts of the images to properly reflect the test data). Furthermore, it is hypothesised that a focus on mid-level features (i.e.\ both low-level and high-level features) can provide the best overall performance on both test datasets. The baseline for all experiments should be random subselections to see if the diversity based subselections are actually able to have a real effect.
+Our hypothesis is that the feature level at which the diversity of the training data is maximised will have a congruent effect on the performance on the test data. In particular, the decoding and reconstruction of artificial shapes should benefit from a focus on low-level feature diversity (since these have low semantic meaning). A focus on high-level diversity should improve performance on the natural test data (since the decoder must be able to predict the semantic concepts of the images to properly reflect the test data). Furthermore, it is hypothesised that a focus on mid-level features (i.e.\ both low-level and high-level features) can provide the best overall performance on both test datasets. The baseline for all experiments should be random subselections to see if the diversity based subselections are actually able to have a real effect.
 
 % Hypothesen:
 % - Low-level Sampling soll low-level Algorithmen VDVAE und ICNN verbessern
 %   - Insbesondere auch bei den artificial Shapes
 % - Mid-Level Sampling mit dreamsim sollte die besten Ergebnisse produzieren, da sowohl auf gleichmäßige Verteilung der low als auch high level features geachtet wird
-% - Mit high-level Sampling bestenfalls clip translator und die clip-accuracy bei der reconstruction
+% - Mit high-level Sampling bestenfalls clip decoder und die clip-accuracy bei der reconstruction
 
 
 \subsection{Methods}
@@ -98,7 +98,7 @@ In order to evaluate diversity-based methods, it is important to establish a sui
     \caption{Reconstruction performance with different levels of random dropout}\label{fig:dropout_random_reconstruction}
 \end{figure}
 
-The performance of the translator is shown in Figure~\ref{fig:dropout_random_translator} for both the natural test images and the artificial shapes. For the natural test images, the relationship between the number of training samples and performance is relatively similar for all the translators: the more training samples, the better. However, for the VDVAE and ICNN in particular, the performance curve for the translator flattens out at around 50\% training samples. The trend for the artificial shapes is somewhat different. The Clipvision translator does not seem to improve with an increasing number of training images, but is only just above the random level of 0.5. The Cliptext translator can show a performance above the random level from about 50\% of the training data set and then increases continuously. The VDVAE translator shows a slightly higher performance, but also saturates at about 50\% of the training data set. The same pattern is shown by the ICNN, whose performance is the best, but also does not improve from about 50\% of the training data set. 
+The performance of the decoder is shown in Figure~\ref{fig:dropout_random_translator} for both the natural test images and the artificial shapes. For the natural test images, the relationship between the number of training samples and performance is relatively similar for all the decoders: the more training samples, the better. However, for the VDVAE and ICNN in particular, the performance curve for the decoder flattens out at around 50\% training samples. The trend for the artificial shapes is somewhat different. The Clipvision decoder does not seem to improve with an increasing number of training images, but is only just above the random level of 0.5. The Cliptext decoder can show a performance above the random level from about 50\% of the training data set and then increases continuously. The VDVAE decoder shows a slightly higher performance, but also saturates at about 50\% of the training data set. The same pattern is shown by the ICNN, whose performance is the best, but also does not improve from about 50\% of the training data set. 
 
 The quantitative performance of the reconstruction algorithms is shown in Figure~\ref{fig:dropout_random_reconstruction} for both the natural test images and the artificial images. The individual metrics are shown in similar colours for Brain Diffuser and ICNN (ICNN is slightly lighter than Brain Diffuser). The PixelCorrelation shows a similar picture for both algorithms for the natural test images and the artificial shapes: While the ICNN benefits from more training samples, with the step from 25\% to 50\% of the training data set being particularly significant, the brain-diffuser shows only a very small increase in performance with increasing number of training samples. The Dreamsim similarity increases continuously with a larger number of training samples. In particular, the ICNN benefits from a larger number of training samples. The Clip-Accuracy shows that for the natural test images the performance also saturates at about 50\% of the training samples, and for the artificial shapes it is difficult to report an increase in performance.
 
@@ -186,17 +186,17 @@ In summary, the qualitative and quantitative review showed that the diversity-ba
 
 
 \subsection{Results}
-The three generated subspaces were used below to train the translator and reconstruct images for each of the five subjects. To provide an adequate baseline, the results of the three subspaces are each compared with a random subselection. 
+The three generated subspaces were used below to train the decoder and reconstruct images for each of the five subjects. To provide an adequate baseline, the results of the three subspaces are each compared with a random subselection. 
 
 \subsubsection{Decoding results}
-The performance of the three trained translators of the brain diffuser and the VGG19 features of the ICNN algorithm is shown in Figure~\ref{fig:dropout_eval_translator_test} for the natural test images and in Figure~\ref{fig:dropout_eval_translator_art} for the artificial shapes. The results are shown for all four different dropout strategies (random subsample and samples based on the three feature spaces). For the natural test images, the performance of all subsamples is above the random probability of 0.5. However, for the three translators of the brain diffuser, there are no discernible differences in performance between the different dropout strategies. Only the ICNN translator shows that performance can be slightly improved with a targeted diversity-based subsampling strategy. However, in this case too, there is no significant difference between the three feature spaces.
+The performance of the three trained decoders of the brain diffuser and the VGG19 features of the ICNN algorithm is shown in Figure~\ref{fig:dropout_eval_translator_test} for the natural test images and in Figure~\ref{fig:dropout_eval_translator_art} for the artificial shapes. The results are shown for all four different dropout strategies (random subsample and samples based on the three feature spaces). For the natural test images, the performance of all subsamples is above the random probability of 0.5. However, for the three decoders of the brain diffuser, there are no discernible differences in performance between the different dropout strategies. Only the ICNN decoder shows that performance can be slightly improved with a targeted diversity-based subsampling strategy. However, in this case too, there is no significant difference between the three feature spaces.
 
 % Now the Eval Results
-% 7.1 Eval Translator test
+% 7.1 Eval decoder test
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_eval_translator_test.png}
-  \caption{Translator performance (0.25 data fraction) for Natural Test Images}\label{fig:dropout_eval_translator_test}
+  \caption{Decoder performance (0.25 data fraction) for Natural Test Images}\label{fig:dropout_eval_translator_test}
 \end{figure}
 
 The artificial shapes in Figure~\ref{fig:dropout_eval_translator_art} show that the two clip translators are not able to predict the features significantly beyond random probability. This is independent of the subsampling space. The performance of the VDVAE translator is slightly better, with all subsamples tending to be better than the random probability. In particular, the performance of the low-level pixel feature space seems to have a slight advantage over the other subsampling strategies. For the ICNN translator, on the other hand, the effect of the natural test images seems to have been reversed; for the Pixel and Dreamsim feature spaces, the performance even looks slightly worse than with random subsampling. Within the clipvision feature space, the variance between the subjects is really high, thus the results cannot easily be interpreted.
@@ -204,7 +204,7 @@ The artificial shapes in Figure~\ref{fig:dropout_eval_translator_art} show that 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{plots/dropout_eval_translator_art.png}
-  \caption{Translator performance (0.25 data fraction) for Artificial Shapes}\label{fig:dropout_eval_translator_art}
+  \caption{Decoder performance (0.25 data fraction) for Artificial Shapes}\label{fig:dropout_eval_translator_art}
 \end{figure}
 
 
