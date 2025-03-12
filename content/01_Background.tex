@@ -1,19 +1,55 @@
 \chapter{Background}
 
+Alle wichtigen Teile die nötig sind um die Arbeit im Detail zu verstehen werden im Folgenden erläutert. 
+
+\section{Brain Decoding And Image Reconstruction}
+
+
+\cite{grill-spectorHUMANVISUALCORTEX2004} Es ist schon lange bekannt, dass es im visuellen System Neurone gibt, welche von unterschiedlichen Reizen (zum Beispiel der Ausrichtung) von Objekten reagieren
+
+\cite{kourtziCorticalRegionsInvolved2000} Regionen, welche auf unterschiedliche Formen reagieren
+\cite{kanwisherFusiformFaceArea1997} die FFA, die vor allem auf Gesichter reagiert
+\cite{epsteinCorticalRepresentationLocal1998} die PPA, die auf Szenen reagiert aber nur wenig auf einzelne Objekte und gar nicht auf Gesichter
+
+All das sind allgemeine Studien, welche das Encoding untersucht haben (also, wie sind Informationen im Kopf gespeichert). Es gibt den Unterschied zum Decoding \cite{naselarisEncodingDecodingFMRI2011}
+
+\cite{kamitaniDecodingVisualSubjective2005} 
+
+\cite{miyawakiVisualImageReconstruction2008}
+
+% \cite{kamitaniSpatialSmoothingHurts2010}
+% \cite{yamashitaSparseEstimationAutomatically2008}
+\cite{horikawaGenericDecodingSeen2017} (nicht in den important papers)
+
+\cite{horikawaAttentionModulatesNeural2022}
+\cite{chengReconstructingVisualIllusory2023}
+
+\subsection{General Image Reconstruction}
+
+\cite{shirakawaSpuriousReconstructionBrain2024} Beschreibt die grundsätzliche Funktionsweise solcher Reconstruction Algorithms
+
+\cite{shenDeepImageReconstruction2019} ICNN
+\cite{ozcelikNaturalSceneReconstruction2023} brain-diffuser
+
+
+\section{Data Diversity}
+- Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann.
+- Generelle Erläuterung über Data Diversity in machine learning und OOS generalization
+- Irgendwo auch schonmal irgendwie image naturalness droppen (also dass Diversität sich auch auf die naturalness beziehen kann)
+- evtl: Image Diversity ist gar nicht so leicht zu definieren
 
 - Datendiversität gibts auf unterschiedlichen Ebenen (das muss irgendwie mit drin sein für den Rest der Arbeit)
-- Irgendwo auch schonmal irgendwie image naturalness droppen
-
-
-
-- Versatile Diffusion \cite{xuVersatileDiffusionText2024} erklären
-
-- Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann. Zum Beispiel auch unabhängig von der Naturalness. Eine Möglichkeit naturalness zu messen ist in Multimedia Features for Click Prediction of New Ads in
-
-- Modernere Bewertung zu was natural ist und was nicht in \cite{chenExploringNaturalnessAIGenerated2023}, folgt zwei verschiedenen Wegen wie der visual pathway
-
 - Bei der Diversity kann man auch darauf eingehen, dass der visual pathway zwei verschiedene Wege folgt, in 20, 31, 66 aus \cite{chenExploringNaturalnessAIGenerated2023}
-
     - Genauso ist es sehr wichtig, dass eingeführt wird in das Konzept, dass es low-level und high-level Diversity geben kann, sodass die folgenden Kapitel (insbesondere dropout) darauf aufbauen können
     - Das macht ja zum Beispiel auch der ICNN Algorithmus, der die natürliche Hierarchisierung von VGG19 für diese Einteilung nutzt
     - Horikawa und so machen gucken auch schon, wie sich die lowe level Features durch unterschiedliche Gehirnstrukturen vorhersagen lassen
+
+Diversity in Image Reconstruction 
+    Output Dimension collapse\cite{shirakawaSpuriousReconstructionBrain2024}
+
+
+\section{Problem Statement}
+Can we reduce the output dimension collapse?
+    Or at least understand the phenomenon better
+Can we improve results by adding diversity in some ways
+    Or find the parts in the training data, that account for the generalization
