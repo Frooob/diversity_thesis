@@ -38,19 +38,17 @@ Now that features of deep learning models can be predicted at different levels, 
     \caption[General Reconstruction Pipeline]{Visualization of the general Reconstruction Pipeline taken from Shirakawa et al.\cite{shirakawaSpuriousReconstructionBrain2024}}\label{fig:recon_pipeline}
 \end{figure}
 
+One algorithm using this approach is the iterative Convolutional Network algorithm (iCNN), first described by Shen et al.\cite{shenDeepImageReconstruction2019}. They adopted the method introduced by Horikawa et al.\cite{horikawaGenericDecodingSeen2017} to predict hierarchical features of a deep neural network based on brain activity and subsequently used these features to reconstruct images that the participants have seen. Specifically, Shen et al.\ used a VGG-19 network that was pre-trained on ImageNet, to obtain features from the training images. Then a sparse linear regression was trained to predict these features from the brain activity. Then, for two different test datasets, the trained decoder predicted the test features from the brain activity. Backpropagation is used to adjust the pixels in multiple steps to minimise the loss between the predicted features and the features, that the pixels produce in the vgg-19 network. In addition, an optional deep generator network was introduced to act as an image prior to improve the naturalness of the reconstructed images. Using this approach, Shen et al.\ successfully reconstructed both natural and artificially generated test images, effectively exploiting information from higher cortical structures. The iCNN has been used successfully to study the influence of attention on ambiguous stimuli. Horikawa et al.\cite{horikawaAttentionModulatesNeural2022} showed two superimposed images in an experiment. Subjects were asked to focus on one of the images, and the image on which attention was focused could be successfully reconstructed. This shows that the iCNN can also be used to map attention-modulated top-down processes and does not only depend on the actual visual properties of an image. Cheng et al.\cite{chengReconstructingVisualIllusory2023} used images that created optical illusions so that people perceived lines that were not actually present. These perceived (non-existent) features of the images could also be successfully reconstructed using the algorithm.
+
+
+
+Neben dem iCNN, welcher die Rekonstruktion über eine iterative Anpassung im Pixel Space vornimmt, gibt es noch eine zweite Gruppe an Rekonstruktionsalgorithmen, welche die Rekonstruktion über diffusion basierte Image creation durchführen\cite{takagiHighResolutionImageReconstruction,ozcelikNaturalSceneReconstruction2023, scottiMindEye2SharedSubjectModels2024, scottiReconstructingMindsEye2023}. 
+
+
 % Bei denen weiß ich nicht was ich mit ihnen machen soll:
 % \cite{kamitaniSpatialSmoothingHurts2010}
 % \cite{yamashitaSparseEstimationAutomatically2008}
-% \cite{horikawaAttentionModulatesNeural2022}
 % \cite{chengReconstructingVisualIllusory2023}
-
-\subsection{General Image Reconstruction}
-
-\cite{shirakawaSpuriousReconstructionBrain2024} Beschreibt die grundsätzliche Funktionsweise solcher Reconstruction Algorithms
-
-\cite{shenDeepImageReconstruction2019} ICNN
-\cite{ozcelikNaturalSceneReconstruction2023} brain-diffuser
-
 
 \section{Data Diversity}
 - Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann.

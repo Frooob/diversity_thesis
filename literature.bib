@@ -1021,6 +1021,33 @@
   publisher = {Curran Associates, Inc.}
 }
 
+@misc{scottiMindEye2SharedSubjectModels2024,
+  title = {{{MindEye2}}: {{Shared-Subject Models Enable fMRI-To-Image With}} 1 {{Hour}} of {{Data}}},
+  shorttitle = {{{MindEye2}}},
+  author = {Scotti, Paul S. and Tripathy, Mihir and Villanueva, Cesar Kadir Torrico and Kneeland, Reese and Chen, Tong and Narang, Ashutosh and Santhirasegaran, Charan and Xu, Jonathan and Naselaris, Thomas and Norman, Kenneth A. and Abraham, Tanishq Mathew},
+  year = {2024},
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2403.11207},
+  urldate = {2025-03-15},
+  abstract = {Reconstructions of visual perception from brain activity have improved tremendously, but the practical utility of such methods has been limited. This is because such models are trained independently per subject where each subject requires dozens of hours of expensive fMRI training data to attain high-quality results. The present work showcases high-quality reconstructions using only 1 hour of fMRI training data. We pretrain our model across 7 subjects and then fine-tune on minimal data from a new subject. Our novel functional alignment procedure linearly maps all brain data to a shared-subject latent space, followed by a shared non-linear mapping to CLIP image space. We then map from CLIP space to pixel space by fine-tuning Stable Diffusion XL to accept CLIP latents as inputs instead of text. This approach improves out-of-subject generalization with limited training data and also attains state-of-the-art image retrieval and reconstruction metrics compared to single-subject approaches. MindEye2 demonstrates how accurate reconstructions of perception are possible from a single visit to the MRI facility. All code is available on GitHub.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computer Vision and Pattern Recognition (cs.CV),FOS: Biological sciences,FOS: Computer and information sciences,Neurons and Cognition (q-bio.NC)},
+  file = {/Users/matt/Zotero/storage/NA48UMFS/Scotti et al. - 2024 - MindEye2 Shared-Subject Models Enable fMRI-To-Ima.pdf}
+}
+
+@misc{scottiReconstructingMindsEye2023,
+  title = {Reconstructing the {{Mind}}'s {{Eye}}: {{fMRI-to-Image}} with {{Contrastive Learning}} and {{Diffusion Priors}}},
+  shorttitle = {Reconstructing the {{Mind}}'s {{Eye}}},
+  author = {Scotti, Paul S. and Banerjee, Atmadeep and Goode, Jimmie and Shabalin, Stepan and Nguyen, Alex and Cohen, Ethan and Dempster, Aidan J. and Verlinde, Nathalie and Yundler, Elad and Weisberg, David and Norman, Kenneth A. and Abraham, Tanishq Mathew},
+  year = {2023},
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2305.18274},
+  urldate = {2025-03-15},
+  abstract = {We present MindEye, a novel fMRI-to-image approach to retrieve and reconstruct viewed images from brain activity. Our model comprises two parallel submodules that are specialized for retrieval (using contrastive learning) and reconstruction (using a diffusion prior). MindEye can map fMRI brain activity to any high dimensional multimodal latent space, like CLIP image space, enabling image reconstruction using generative models that accept embeddings from this latent space. We comprehensively compare our approach with other existing methods, using both qualitative side-by-side comparisons and quantitative evaluations, and show that MindEye achieves state-of-the-art performance in both reconstruction and retrieval tasks. In particular, MindEye can retrieve the exact original image even among highly similar candidates indicating that its brain embeddings retain fine-grained image-specific information. This allows us to accurately retrieve images even from large-scale databases like LAION-5B. We demonstrate through ablations that MindEye's performance improvements over previous methods result from specialized submodules for retrieval and reconstruction, improved training techniques, and training models with orders of magnitude more parameters. Furthermore, we show that MindEye can better preserve low-level image features in the reconstructions by using img2img, with outputs from a separate autoencoder. All code is available on GitHub.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computer Vision and Pattern Recognition (cs.CV),FOS: Biological sciences,FOS: Computer and information sciences,Neurons and Cognition (q-bio.NC)}
+}
+
 @misc{senerActiveLearningConvolutional2018,
   title = {Active {{Learning}} for {{Convolutional Neural Networks}}: {{A Core-Set Approach}}},
   shorttitle = {Active {{Learning}} for {{Convolutional Neural Networks}}},
