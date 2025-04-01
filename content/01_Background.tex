@@ -55,20 +55,30 @@ In addition to the iCNN, which reconstructs images through iterative pixel-space
 % \cite{chengReconstructingVisualIllusory2023}
 
 \section{Data diversity}
+
 - Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann.
-- Generelle Erläuterung über Data Diversity in machine learning und OOS generalization
-- Irgendwo auch schonmal irgendwie image naturalness droppen (also dass Diversität sich auch auf die naturalness beziehen kann)
-- evtl: Image Diversity ist gar nicht so leicht zu definieren
+    - Shirakawa et al zeigen, das ist nicht so ohne weiteres möglich
+        - Output dimension collapse
+        - Fehlende Generalisierung
+        - Klassifikation statt Regression
+        - Machen theoretische Analyse darüber, dass ausreichend diversere Trainingsdaten die Generalisierung verbessern können
 
-- Datendiversität gibts auf unterschiedlichen Ebenen (das muss irgendwie mit drin sein für den Rest der Arbeit)
-- Bei der Diversity kann man auch darauf eingehen, dass der visual pathway zwei verschiedene Wege folgt, in 20, 31, 66 aus~\cite{chenExploringNaturalnessAIGenerated2023}
-    - Genauso ist es sehr wichtig, dass eingeführt wird in das Konzept, dass es low-level und high-level Diversity geben kann, sodass die folgenden Kapitel (insbesondere dropout) darauf aufbauen können
+- Wie verhält sich training dataset diversity in ML bzw. OOS generalisation?
+    - Hier geht es um ML im generellen und welche Forschung es dazu gibt
+    - HIER LITERATUR SUCHEN. Was gibt es zu data diversity? Was gibt es zu OOS generalization?
+
+- Welche image diveristy ist bei image tasks wichtig?
+    - Es ist schwer zu definieren, welche Art von Diversität auf der Bild Trainingsebene überhaupt nötig ist, um auf alle vorstellbaren Stimuli generalisieren zu können
+    - Bilder mit unterschiedlicher Naturalness? Überhaupt naturalness?
+    - Gibt es Forschung dazu, welche Bilder bei image classification wichtig sind für generalisation?
+
+- Was für image diversity könnte insbesondere beim brain decoding wichtig sein?
+    - Der Frage, was für Diversität es gibt, kann auch auf biologischer Ebene begengnet werden:
+    - Bei der Diversity kann man auch darauf eingehen, dass der visual pathway zwei verschiedene Wege folgt, in 20, 31, 66 aus~\cite{chenExploringNaturalnessAIGenerated2023}
     - Das macht ja zum Beispiel auch der iCNN Algorithmus, der die natürliche Hierarchisierung von VGG19 für diese Einteilung nutzt
+        - Low/mid/high level Features
     - Horikawa und so machen gucken auch schon, wie sich die lowe level Features durch unterschiedliche Gehirnstrukturen vorhersagen lassen
-
-Diversity in Image Reconstruction 
-    Output Dimension collapse~\cite{shirakawaSpuriousReconstructionBrain2024}
-
+    - Können wir rausfinen, wie man möglichst Daten von allen involvierten Gehirnstrukturen rauslesen kann?
 
 \section{Problem statement}
 Can we reduce the output dimension collapse?
