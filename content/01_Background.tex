@@ -56,57 +56,99 @@ In addition to the iCNN, which reconstructs images through iterative pixel-space
 
 \section{Data diversity}
 
-- Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann.
-    - Shirakawa et al zeigen, das ist nicht so ohne weiteres möglich
-        - Output dimension collapse
-        - Fehlende Generalisierung
-        - Klassifikation statt Regression
-        - Machen theoretische Analyse darüber, dass ausreichend diversere Trainingsdaten die Generalisierung verbessern können
+% - Wir wollen einen Bildgenerator der universal ist, also Bilder mit ganz unterschiedlichen Charakteristika rekonstruieren kann.
+%     - Shirakawa et al zeigen, das ist nicht so ohne weiteres möglich
+%         - Output dimension collapse
+%         - Fehlende Generalisierung
+%         - Klassifikation statt Regression
+%         - Machen theoretische Analyse darüber, dass ausreichend diversere Trainingsdaten die Generalisierung verbessern können
 
-- Wie verhält sich training dataset diversity in ML bzw. OOS generalisation?
-    - Hier geht es um ML im generellen und welche Forschung es dazu gibt
-    - HIER LITERATUR SUCHEN. Was gibt es zu data diversity? Was gibt es zu OOS generalization?
+% - Wie verhält sich training dataset diversity in ML bzw. OOS generalisation?
+%     - Hier geht es um ML im generellen und welche Forschung es dazu gibt
+%     - HIER LITERATUR SUCHEN. Was gibt es zu data diversity? Was gibt es zu OOS generalization?
 
-- Welche image diveristy ist bei image tasks wichtig?
-    - Es ist schwer zu definieren, welche Art von Diversität auf der Bild Trainingsebene überhaupt nötig ist, um auf alle vorstellbaren Stimuli generalisieren zu können
-    - Bilder mit unterschiedlicher Naturalness? Überhaupt naturalness?
-    - Gibt es Forschung dazu, welche Bilder bei image classification wichtig sind für generalisation?
-
-- Was für image diversity könnte insbesondere beim brain decoding wichtig sein?
-    - Der Frage, was für Diversität es gibt, kann auch auf biologischer Ebene begengnet werden:
-    - Bei der Diversity kann man auch darauf eingehen, dass der visual pathway zwei verschiedene Wege folgt, in 20, 31, 66 aus~\cite{chenExploringNaturalnessAIGenerated2023}
-    - Das macht ja zum Beispiel auch der iCNN Algorithmus, der die natürliche Hierarchisierung von VGG19 für diese Einteilung nutzt
-        - Low/mid/high level Features
-    - Horikawa und so machen gucken auch schon, wie sich die lowe level Features durch unterschiedliche Gehirnstrukturen vorhersagen lassen
-    - Können wir rausfinen, wie man möglichst Daten von allen involvierten Gehirnstrukturen rauslesen kann?
-
-
-0. Introduction into the topic with Shirakawa and the output dimension collapse
-
-1. Diversity generell
-
-- \cite{gongDiversityMachineLearning2019} 
-    - Schreiben, dass Diversity in ML wichtig ist
-    - Diversity in parameters and in inference
-    - Machen systematical review darüber, wie man data diversification machen kann
-    - Discuss challenges in diversity technology and machine learning
-
-- \cite{xuRobustnessGeneralization2012}
-    - similarity between training and test sample makes test and train error close to each other
-
-- \cite{JMLR:v6:brown05a}
-    - Bei Ensemble approaches ist es wichtig, dass die Ergebnisse divers sind, damit sie zur generalisierung beitragen können
-
-- \cite{Kuncheva2003Measures}
-    - Es ist gar nicht so leicht, die Diversity in Samples darzustellen
-
-2. Diversity Image Tasks
+% - Welche image diveristy ist bei image tasks wichtig?
+%     - Es ist schwer zu definieren, welche Art von Diversität auf der Bild Trainingsebene überhaupt nötig ist, um auf alle vorstellbaren Stimuli generalisieren zu können
+%     - Bilder mit unterschiedlicher Naturalness? Überhaupt naturalness?
+%     - Gibt es Forschung dazu, welche Bilder bei image classification wichtig sind für generalisation?
 
 
 
+% 0. Introduction into the topic with Shirakawa and the output dimension collapse
 
-3. Diversity in Brain decoding
+% Shirakawa et al.~\cite{shirakawaSpuriousReconstructionBrain2024} haben die Bildrekonstruktion mithilfe von Gehirnaktivität und insbesondere die diffusion basierten Ansätze näher untersucht. Es stellte sich heraus, das die gute Performance der Rekonstruktion zu einem großen Teil darauf zurückzuführen war, dass im NSD Datensatz eine hohe semantische Überlappung zwischen den Trainings- und Testdaten vorhanden ist. In einer kritischen Überprüfung stellten sie fest, dass auch mit randomisierter Gehirnaktivität mitunter valide Bilder rekonstruiert werden konnten. Mithilfe von Clustering der Trainings- und Testdaten im CLIP space konnten sie zeigen, dass einerseits nur eine relativ geringe Menge von Clustern in den Trainingsdaten gefunden werden konnte (zum Beispiel Flugzeuge oder Hunde) und andererseits, dass diese Cluster sich zwischen Trainings- und Testdaten stark überschnitten haben. In einer theoretischen simulationsgestützen Analyse konnten sie zeigen, dass die Modelle (zum Beispiel lineare Regression), welche zur Übersetzung von Gehirnaktivität genutzt werden, dazu neigen alle Testdaten auf den Subspace abzubilden, welcher von den Trainingsdaten definiert wird. Dies würde im Beispiel der Bildrekonstruktion bedeuten, dass arbiträre Gehirnaktivität immer nur auf den subspace der Trainingsdaten abgebildet wird (also Bilder die ähnlich zu denen sind, welche den Trainingsdaten ähnlich sind). 
+% Diesen Umstand nennen die Autoren Output Dimension Collapse. Der output dimension collapse erklärt einerseits, wieso auch zufällige Gehirnaktivität valide Rekonstruktion erzeugt und andererseits, dass out of distribution Generalisierung (also zum Beispiel die Rekonstruktion von Konzepten die nicht in den Trainingsdaten vorhanden sind) mit der limitierten Diversität der Trainingsdaten nur begrenzt funktionieren kann. Durch den output dimension collapse degeneriert die Regression zu einer Art Klassifikation der im Trainingsdatensatz vorhandener Konzepte. In einer weiteren Untersuchung mit simulierten Daten untersuchen die Autoren, unter welchen Umständen eine wahre out-of-distribution (OOD) Generalisierung möglich wird. Sie stellen fest, dass es ausreichend ist, wenn in den Trainingsdaten genügend Cluster vorhanden sind, um den gesamten Output Space aufzuspannen (also eine lineare Erhöhung der Trainingsdaten im Bezug zur Anzahl der Output Dimensionen), es also nicht unbedingt nötig ist, den gesamten Output space dicht mit Trainingsdaten zu füllen (also eine exponentielle Erhöhung der Trainingsdaten im Bezug zur Anzahl der Output Dimensionen). Diese Erkenntnisse unterstreichen die Wichtigkeit der Diversität der Trainingsdaten bei dem Versuch das Ziel zu erreichen, beliebige visuelle Stimuli aus Gehirnaktivität rekonstruieren zu können.
 
+Shirakawa et al.~\cite{shirakawaSpuriousReconstructionBrain2024} have further investigated the current image reconstruction methods and in particular diffusion-based approaches. It turned out that the good performance of the reconstruction was largely due to the fact that there is a high semantic overlap between the training and test data in the NSD dataset. In a critical review, they found that valid images could sometimes be reconstructed even with randomised brain activity. By clustering the training and test data in the CLIP space, they showed that only a relatively small number of clusters could be found in the training data (e.g. aeroplanes or dogs), and that these clusters overlapped considerably between training and test data. In a theoretical simulation-based analysis, they showed that the models (e.g.\ linear regression) used to translate brain activity tend to map all test data onto the subspace defined by the training data (and this fact could be even more true for nonlinear models). In the example of image reconstruction, this would mean that arbitrary brain activity would always be mapped to the subspace of the training data (i.e.\ images that are similar to those that are similar to the training data). The authors call this phenomenon output dimension collapse. Output dimension collapse explains why even random brain activity may produce valid reconstructions, and why out-of-distribution generalisation (e.g. reconstruction of concepts not present in the training data) can only work to a limited extent with the limited diversity of the training data. Due to the  output dimension collapse, the regression degenerates into a kind of classification of the concepts present in the training data set. In a further study with simulated data, the authors investigate under which circumstances true out-of-distribution (OOD) generalisation becomes possible. They found that it is sufficient if there are enough clusters in the training data to span the entire output space (i.e.\ a linear increase in training data with respect to the number of output dimensions), so that it is not absolutely necessary to densely fill the entire output space with training data (i.e.\ an exponential increase in training data with respect to the number of output dimensions). These findings highlight the importance of diversity in training data when attempting to reconstruct arbitrary visual stimuli from brain activity.
+
+At the same time, it is difficult to define which clusters in the training data are necessary to cover the entire image space (i.e.\ all images that could possibly exist) in its dimensionality. This raises the question of how to measure and maximise the diversity of images to come closer towards this goal. One approach to increase the amount of training data, and implicitly diversity, is image augmentation. With simple operations such as partial covering, rotation or mirroring of the input images, individual images can be duplicated with slight modifications. Augmentation like this can increase the robustness and generalisation of image classifications~\cite{shortenSurveyImageData2019}. Yao et al.\ go a step further by attempting to automatically construct datasets that increase the diversity of images. For example, existing categories (e.g.\ dog) are extended with semantic information (e.g.\ yawning dog, jumping dog) to increase the diversity within these categories, while removing categories that would add noise (e.g.\ hot dog). However, a significant limitation of their approach remains its category dependency: it only expands diversity within a predetermined set of categories, rather than exploring a broader, potentially undefined range. This limitation raises critical questions: Is it necessary to comprehensively fill out every conceivable category, and do the categories imagined by researchers align with those genuinely required for effective image classification? A broader perspective on diversity is offered by Gong et al. (2019), who assert the importance of diversity in machine learning at the level of datasets as well as model parameters and architectures. Through their systematic review, they detail various strategies for diversifying the results of machine learning models. They identify a fundamental issue central to diversification efforts: the need for a reliable metric to measure similarity between images and thus determine the overall dataset diversity. A problem that Couch et al. (2024) try to solve. The common practice of increasing dataset diversity is to increase the dataset size while maintaining class balance. They argue that a large number of samples alone does not necessarily ensure comprehensive representation across the possible output space. To address this, Couch et al.\ propose `Big Alpha', a new diversity criterion based on entropy, which explicitly considers the frequency distribution of individual classes. They also investigate several other measures, that would for instance take into account the diversity of colors. However the problem remains, that this approach to measure dataset diversity is still dependent on the definition of classes in the dataset and doesn't offer a solution to determining the diversity of a dataset in terms of all possible categories that could exist. Integrating these considerations, it becomes clear that results from image classification tasks alone may not fully address our objective. Our ultimate aim is the reconstruction of all possible visual information from brain activity data. Therefore, dataset diversity should encompass not only variations in visual image content but also account for diverse neural representations. Leveraging insights on how the brain encodes visual data might get us a step closer to creating training datasets that could help decoding all sorts of possible visual data.
+
+
+% - \cite{Kuncheva2003Measures}
+%     - Es ist gar nicht so leicht, die Diversity in Samples darzustellen
+
+% \cite{shortenSurveyImageData2019} 
+% - Image augmentation wird genutzt um diversity in den Trainingsdaten zu erstellen
+% - Ziel ist dataset size increasen, implicit goal ist die diversity zu erhöhen.
+% - Das Problem ist, dass Augmentation bei dem Brain Decoding nicht so einfach genutzt werden kann, weil das Problem sich bei uns umdreht (es ist schwierig die X Daten zu sammeln, nicht aber die Y Daten)
+% - Normalerweise sind bei Bild Klassifizierung die Bilder halt die X Daten und die teuren Labels sind die Y Daten
+% - In der Regel fokussieren sich Ansätze darauf diese Menge der zu labelnden Daten zu minimieren.
+
+% \cite{yaoAutomaticConstructionDiverse2017}
+% - Automatische Konstruktion von Datensätzen
+% - Geht in Richtung von Augmentation, nur mit semantischer Erweiterung der Bilder
+% - versuchen die Diversität innerhalb einzelner Kategorien anzureichern und dabei noise zu filtern (hot dog lol)
+% - Auch noch abhängig von Kategorien, ein solcher Ansatz würde also nicht in alle möglichen denkbaren Kategorien gehen, sondern bei einer konkret vorstellbaren Anzahl an Kategorien enden
+% - Und die Frage ist ja überhaupt, muss man jede Kategorie so kopmlett ausgefüllt haben
+% - Sind diese Kategorien die wir uns vorstellen können überhaupt diejenigen die wir brauchen 
+
+% \cite{gongDiversityMachineLearning2019} 
+% - Schreiben, dass Diversity in ML wichtig ist
+% - Diversity in parameters and in inference
+% - Machen systematical review darüber, wie man data diversification machen kann
+% - Discuss challenges in diversity technology and machine learning
+% - Beschreiben zum Beispiel active learning, wo immer das nächste Sample gesucht wird, das am meisten die Unsicherheit senkt
+% - Die Diversity kann vom Datensatz aber auch vom Model ausgehen
+% - Lösungen können in die Richtung gehen, dass mehrere Vorhersagen genutzt werden
+% - Das Schlüsselproblem für die diversfication ist, wie man die similarity zwischen den einzelnen Bildern messen will. 
+
+% \cite{couchSizeClassBalance2024}
+% - Abstract:
+% - In practice, maximising dataset diversity usually means Increasing dataset size while maintaining class balance. The more samples, the higher the probability that the possible output space is sufficiently filled.
+% - Kritisieren dass Menge der Trainingsdaten und class balance nicht ausreichen für data diversity
+% - Just the sheer number doesn't indicate how well the elements fill out the space of all possible images
+% - schlagen Big alpha vor als Diversitätskriterium
+
+% - Benutzen Entropie basierte Diversity Kriterien die auch die Frequenz einzelner Klassen miteinbeziehen
+% - Konnten mit ihrem einzelnen Wert A welcher die Diversität bestimmt die Dataset size outpferformen
+
+% Damit enden, dass wir ja nicht nur an Classification von Bildern interessiert sind, sondern insbesondere es auch um die Rekonstruktion aus Gehirndaten geht und dabei ja nicht nur auf die Bilder an sich geachtet werden soll, sondern auch darauf, wie das Gehirn funktioniert, sodass alle möglichen Zustände des Gehirns (die bei der Bildverarbeitung notwendig sind) auch einbezogen werden können.
+
+
+% 1. Diversity generell
+
+% Ivanovici et al 2020 machen color entropy
+% Color Image Complexity versus Over-Segmentation: A Preliminary Study on the Correlation between Complexity Measures and Number of Segments 
+
+% - \cite{xuRobustnessGeneralization2012}
+%     - similarity between training and test sample makes test and train error close to each other
+
+% - \cite{JMLR:v6:brown05a}
+%     - Bei Ensemble approaches ist es wichtig, dass die Ergebnisse divers sind, damit sie zur generalisierung beitragen können
+
+
+% 2. Diversity Image Tasks
+
+
+% 3. Diversity in Brain decoding
+
+% - Was für image diversity könnte insbesondere beim brain decoding wichtig sein?
+%     - Der Frage, was für Diversität es gibt, kann auch auf biologischer Ebene begengnet werden:
+%     - Bei der Diversity kann man auch darauf eingehen, dass der visual pathway zwei verschiedene Wege folgt, in 20, 31, 66 aus~\cite{chenExploringNaturalnessAIGenerated2023}
+%     - Das macht ja zum Beispiel auch der iCNN Algorithmus, der die natürliche Hierarchisierung von VGG19 für diese Einteilung nutzt
+%         - Low/mid/high level Features
+%     - Horikawa und so machen gucken auch schon, wie sich die lowe level Features durch unterschiedliche Gehirnstrukturen vorhersagen lassen
+%     - Können wir rausfinen, wie man möglichst Daten von allen involvierten Gehirnstrukturen rauslesen kann?
 
 
 \section{Problem statement}
@@ -114,3 +156,5 @@ Can we reduce the output dimension collapse?
     Or at least understand the phenomenon better
 Can we improve results by adding diversity in some ways
     Or find the parts in the training data, that account for the generalization
+
+Um diese Fragen zu beantworten wird in dieser Abeit eine empirische Untersuchung angestellt, mit welcher Wege untersucht werden, wie die Diversität im Rekonstruktionstraining gesteigert werden kann. Anhand verschiedener Experimente wird diese Frage weiter untersucht. 
