@@ -1,6 +1,28 @@
 \chapter{Discussion}
+% https://www.scribbr.com/dissertation/discussion/
 
-Zusammenfassend auch nochmal die Ergebnisse von allem was ich gemacht habe
+% Summary: A brief recap of your key results
+% Interpretations: What do your results mean?
+% Implications: Why do your results matter?
+% Limitations: What can’t your results tell us?
+% Recommendations: Avenues for further studies or 
+
+In this work, three experiments were performed to investigate the influence of diversity on image reconstruction from brain activity. The two algorithms iCNN by Shen et al.~\cite{shenDeepImageReconstruction2019} and in particular the Brain-Diffuser by Ozcelic et al.~\cite{ozcelikNaturalSceneReconstruction2023} were investigated in more detail. The specific results of the individual experiments have already been discussed. At this point, we will discuss the experiments and the resulting findings in the broader context of data diversity and output dimension collapse. First, the individual results are briefly summarised to then open up the discussion for the broad context. In the first experiment, an attempt was made to create subsamples of the training data that maximised diversity at different levels (low-level to high-level features) and tested against a random selection of the training data. For the iCNN in particular, a diversity-based selection of training data slightly improved the reconstruction for the natural test images, but the reconstruction of the artificial shapes was slightly worsened by the diversity-based subselection, indicating a deterioration of the OOD generalisation. A more detailed investigation, using more monotonous or heterogeneous subsamples for training, revealed important findings: on the one hand, the brain diffuser may be very strongly influenced by the monotonous images (or its performance in reconstructing the artificial shapes was largely based on the monotonous test images). On the other hand, the iCNN appeared to have a slight bias towards reconstructing images with single objects in the foreground and little detail in the background, such as the artificial shapes. In the second experiment, the influence of the CLIP text embeddings on the brain diffuser reconstruction was analysed. AI was used to create additional captions for the training images, focusing on either low-level or high-level features of the images. These captions were used to train the CLIP text translator and subsequently create reconstructions with the brain diffuser. Particularly at high levels of mixing, i.e. when the CLIP Text features had a stronger influence on the reconstruction, it was shown that a focus on the low-level features ensured a better reconstruction of the artificial images. At the same time, however, the performance of the natural test images was reduced. Finding a setting that improves both OOD generalisation (in the form of artificial images) and the performance of congruent test images therefore seems difficult. However, these results at least imply that focusing on low-level vs.\ high-level features during training may also favour corresponding reconstructions. In the third experiment, the influence of the CLIP vision embeddings on the reconstruction of the brain diffuser was further investigated. Backpropagation was used to craft perturbations in the training images, which are barely visible to the naked eye, but strongly alter the meaning of the CLIP vision embeddings extracted from them. The information from the captions could thus be added to the images in the form of `semantic noise'. The CLIP Vision translator was trained on these perturbed images, and reconstructions were again produced using the Brain Diffuser. It was found that the reconstructions could not be improved for the natural test images by focusing on the semantic meaning, nor could they be improved for the artificial shapes by reducing the semantic meaning of the images. In fact, performance deteriorated in both conditions. This raised the question of whether a perturbation in which the modified images had to be similar to the originals was necessary at all, and whether modifying the CLIP vision features directly might be a more targeted and effective way of modifying the semantic meaning of the images.
+
+% In dieser Arbeit wurden drei Experimente durchgeführt, die den Einfluss von Diversität auf die Rekonstruktion von Bildern aus Gehirnaktivität untersucht haben. Dabei wurden die zwei Algorithmen iCNN von Shen et al.~\cite{shenDeepImageReconstruction2019} und insbesondere der Brain-Diffuser von Ozcelic et al.~\cite{ozcelikNaturalSceneReconstruction2023} näher untersucht. Die spezifischen Ergebnisse der einzelnen Experimente wurden bereits diskutiert. An dieser Stelle soll nun eine Diskussion der Experimente und der daraus folgenden Erkenntnisse im breiteren Kontext der Datendiversität und des output dimension collapse stattfinden. Zunächst seien dazu die einzelnen Ergebnisse kurz zusammengefasst beschrieben. 
+
+
+% Im ersten Experiment wurde versucht Subsamples der Trainingsdaten zu erstellen, welche die Diversität auf verschiedenen Ebenen (low-level Features bis high-level Features) maximiert haben und gegen eine zufällige Auswahl der Trainingsdaten getestet. Insbesondere mit dem iCNN konnte mit einer diversitätsbasierten Auswahl der Trainingsdaten die Rekonstruktion für natürliche Testbilder leicht verbessert werden, die Rekonstruktion von den artificial Shapes hingegen wurde durch die diversitätsbasierte Subselection aber hingegen leicht verschlechtert, was auf eine Verschlechterung der OOD Generalisierung hindeutet. In einer näheren Untersuchung, in der weitere subsamples für das Training genutzt wurden die besonders monoton bzw. heterogen waren wurden wichtige Erkenntnisse sichtbar: einerseits lässt sich der Brain-Diffuser sehr stark von den monotonen Bildern beeinflussen (bzw. seine Leistung, die Artificial Shapes zu rekonstruieren basierte maßgeblich auf den monotone Testbildern). Andererseits stellte sich heraus, dass der iCNN einen leichten bias zu haben scheint, Bilder zu rekonstruieren, die wie die artificial shapes einzelne Objekte im Vordergrund und wenig Details im Hintergrund haben. 
+
+% Im zweiten Experiment wurde der Einfluss der CLIP Text embeddings auf die Rekonstruktion des Brain-Diffusers untersucht. Mithilfe von KI wurden zusätzliche Captions der Trainingsbilder erstellt, die sich entweder auf low-level oder high-level features der Bilder fokussierten. Mithilfe dieser captions wurden CLIP Text translator trainiert und mit dem Brain-Diffuser Rekonstruktionen erstellt. Insbesondere bei hohem mixing, also stärkerem Einfluss der CLIP Text features bei der Rekonstruktion zeigte sich, dass ein Unterschied im Fokus auf die low-level Features für eine bessere Rekonstruktion der artificial images sorgte. Im gleichen Atemzuge wurde aber die Performance für die natural test images verringert. Ein setting zu finden, bei dem also sowohl die OOD Generalisierung (in Form der artificial images) als auch die Performance bei kongruenten Testbildern verbessert wird scheint also schwer zu sein. Diese Ergebnisse bedeuten aber zumindest, dass der Fokus auf low-level vs high-level features bei dem training auch korrespondierende Rekonstruktionen begünstigen kann.
+
+% Im dritten Experiment wurde der Einfluss der CLIP Vision embeddings auf die Rekonstruktiond es Brain-Diffusers weiter untersucht. Mithilfe von backpropagation wurden gezielt perturbations in den Trainingsbildern erzeugt, die für das bloße Auge kaum sichtbar sind, aber die Bedeutung der daraus extrahierten CLIP Vision embeddings stark verändert haben. Die Informationen aus den Captions konnten so in Form von `semantic noise' den Bildern hinzugefügt werden. Mit diesen perturbed Bildern wurde der CLIP Vision translator trainiert und wieder mit dem Brain-Diffuser Rekonstruktionen erstellt. Es zeigte sich, dass die Rekonstruktionen weder für die natural test images verbessert werden konnte, wenn ein Fokus auf die semantische Bedeutung gelegt wurde, noch dass sie für die artificial shapes verbessert werden konnte, wenn die semantische Bedeutung der Bilder verringert wurde. Für beide Bedingungen wurde die performance sogar eher verschlechtert. Daraufhin stellte sich die Frage, ob eine perturbation bei der die modifizierten Bilder den originalen überhaupt ähnlich sein müssen überhaupt notwendig ist und nicht eventuell eine Modifikation der CLIP Vision features direkt eine zielgerichtetere und effektivere Möglichkeit sein könnte, die semantische Bedeutung der Bilder zu modifizierten.
+
+
+
+
+
+
 
 \cite{wangDiversityImageCaptioning2022}
 - Diversity in Image captioning (ist vielleicht eher was noch fürs AICap Experiment)
@@ -12,7 +34,7 @@ Zu meinen Ergebnissen:
 
 
 den dimension collapse in dem monotone dropout ziemlich gut nochmal gesehen, es wird nur noch auf das abgebildet, was das modell schon kann
-aber auch ein Bisschen catastrophic forgetting. 
+aber auch ein Bisschen catastrophic forgetting von yu et al 2023
 Oder?
 Also die Gesamtleistung wird ja dann nicht besser oder doch?
 Also verglichen mit der main baseline frag ich mich gerade.
@@ -46,6 +68,19 @@ Konkrete Veränderung des setups das wir haben:
     - Theoretisch sind viele Contexts möglich bei dem versatile diffusion approach, mit einer weiterentwicklung könnte man so dann auch je nach image das regeneriert werden soll ganz unterschiedlichen kontext geben (das schreibe ich auch schon teilweise beim aicap Experiment)
     - Generell kann man ja schauen, wie (ja wie nur, ich hab den Satz nicht fertiggeschrieben...)
     - iCNN mit clip ginge ja theoretisch auch
+    - Oder Autoregressive models wie jetzt jüngst von OpenAI gezeigt wurde
 
 
 Eventuell abschließen damit, dass die visuelle Verarbeitung so komplex und top-down reguliert ist, dass es wahrscheinlich bei der Bildrekonstruktion nicht eine einzige Wahrheit gibt. Klar, man kann versuchen ein Bild was jemand sieht 1zu1 wieder darzustellen, das wird aber der Verarbeitung im Kopf nicht unbedingt gerecht. Es können mehrere Unterschiedliche Repräsentationen gleichzeitig geschehen und damit unterschiedliche Bilder gleich gut rekonstruiert werden. 
+
+
+\section{Conclusion}
+% https://www.scribbr.com/dissertation/write-conclusion/
+Hier nochmal die Zusammenfassung dessen was ich gemacht habe. 
+
+
+% Clearly state the answer to your main research question
+% Summarize and reflect on your research process
+% Make recommendations for future work on your thesis or dissertation topic
+% Show what new knowledge you have contributed to your field
+% Wrap up your thesis or dissertation
