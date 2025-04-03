@@ -107,6 +107,9 @@ A qualitative comparison of the results with the low-level Ai generated captions
 
 \subsection{Discussion}
 
+% \cite{wangDiversityImageCaptioning2022}
+% - Diversity in Image captioning (ist vielleicht eher was noch fürs AICap Experiment)
+
 It could be shown that different types of captions, which refer to different features of the image, have a heterogeneous influence on the reconstruction performance. On the one hand, the hypothesis was confirmed, that captions in the training data that refer to low-level features of the images can also ensure that the artificial shapes (which themselves do not carry much high-level information) can be better reconstructed. On the other hand, the reconstruction performance for natural images (which carry a lot of semantic meaning) was not reduced,  when the captions referred to the high-level information of the training images, however it was also not improved. A reason for this could be a ceiling effect for the CLIP Text translator (as the results determined by the identification-accuracy are very high already in the baseline) or the fact, that the human generated captions are very similar to the AI generated high-level captions in the first place. PixelCorrelation did not prove to be a particularly good metric in this experiment, as it was able to detect an improvement in performance with increasing mixing in all cases (even with shuffled captions). The dreamsim metric, on the other hand,  demonstrated the effect described above the strongest (low-level captions are good for artificial shapes and bad for natural test images). 
 
 \begin{figure}[ht]
