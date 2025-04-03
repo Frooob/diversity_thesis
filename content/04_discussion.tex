@@ -17,12 +17,7 @@ In this work, three experiments were performed to investigate the influence of d
 % Im zweiten Experiment wurde der Einfluss der CLIP Text embeddings auf die Rekonstruktion des Brain-Diffusers untersucht. Mithilfe von KI wurden zusätzliche Captions der Trainingsbilder erstellt, die sich entweder auf low-level oder high-level features der Bilder fokussierten. Mithilfe dieser captions wurden CLIP Text translator trainiert und mit dem Brain-Diffuser Rekonstruktionen erstellt. Insbesondere bei hohem mixing, also stärkerem Einfluss der CLIP Text features bei der Rekonstruktion zeigte sich, dass ein Unterschied im Fokus auf die low-level Features für eine bessere Rekonstruktion der artificial images sorgte. Im gleichen Atemzuge wurde aber die Performance für die natural test images verringert. Ein setting zu finden, bei dem also sowohl die OOD Generalisierung (in Form der artificial images) als auch die Performance bei kongruenten Testbildern verbessert wird scheint also schwer zu sein. Diese Ergebnisse bedeuten aber zumindest, dass der Fokus auf low-level vs high-level features bei dem training auch korrespondierende Rekonstruktionen begünstigen kann.
 
 % Im dritten Experiment wurde der Einfluss der CLIP Vision embeddings auf die Rekonstruktiond es Brain-Diffusers weiter untersucht. Mithilfe von backpropagation wurden gezielt perturbations in den Trainingsbildern erzeugt, die für das bloße Auge kaum sichtbar sind, aber die Bedeutung der daraus extrahierten CLIP Vision embeddings stark verändert haben. Die Informationen aus den Captions konnten so in Form von `semantic noise' den Bildern hinzugefügt werden. Mit diesen perturbed Bildern wurde der CLIP Vision translator trainiert und wieder mit dem Brain-Diffuser Rekonstruktionen erstellt. Es zeigte sich, dass die Rekonstruktionen weder für die natural test images verbessert werden konnte, wenn ein Fokus auf die semantische Bedeutung gelegt wurde, noch dass sie für die artificial shapes verbessert werden konnte, wenn die semantische Bedeutung der Bilder verringert wurde. Für beide Bedingungen wurde die performance sogar eher verschlechtert. Daraufhin stellte sich die Frage, ob eine perturbation bei der die modifizierten Bilder den originalen überhaupt ähnlich sein müssen überhaupt notwendig ist und nicht eventuell eine Modifikation der CLIP Vision features direkt eine zielgerichtetere und effektivere Möglichkeit sein könnte, die semantische Bedeutung der Bilder zu modifizierten.
-
-
-
-
-
-
+The results in this paper largely support those of Shirakawa et al.~\cite{shirakawaSpuriousReconstructionBrain2024}. It could be reproduced that the diffusion-based brain diffuser does not perform particularly  with artificial shapes, and that the hallucinations of the diffusion process become visible strongly. As Shirakawa et al. also showed, the iCNN performed better for this test dataset. These results suggest that the reconstruction algorithm also has a strong influence on the generalisation ability of the reconstructions. Regarding the output dimension collapse, the experiments with the monotonic dropout and the low-level labels yielded interesting results: almost all of the performance of the brain diffuser with the artificial shapes seems to be due to the monotonic training images. This can be interpreted to mean that the 'monotone background' dimension in the training data is essential for these test images. This supports the results of the simulation study by Shirakawa et al. in the sense that training data in the right dimensions is needed to enable general reconstructions. The results with the low-level labels can be interpreted in the same way; a focus on low-level labels can also support the low-level reconstructions (artificial shapes). However, in both cases, due to the fact that no new data could be collected for this work, the performance on the natural test data decreased at the same time as the performance on artificial shapes increased. In order to gain further insight into whether the overall performance for all test data can be improved with the findings of this work, it would be important to create a new training data set that is designed specifically by regarding relevant image dimensions. Unfortunately, the question of which dimensions are fundamentally important for learning the reconstruction of the entire possible image space remains unanswered. The low-level vs. high-level and monotonic vs. heterogeneous dimensions analysed in this study are by no means the only possible dimensions that could be used. Other dimensions like colors, object categories, object locations, rotation and others that could possibly not even be described by natural language might also be suited better as the fundamental dimensions that would span the image space.
 
 \cite{wangDiversityImageCaptioning2022}
 - Diversity in Image captioning (ist vielleicht eher was noch fürs AICap Experiment)
@@ -31,6 +26,7 @@ Zu meinen Ergebnissen:
 - PixelCorrelation ist nicht so gut (haben wir an vielen Ergebnissen schon irgendwie gesehen)
     - Zum Beispiel dass durch die Erhöhung von falschem Mixing die Ergebnisse verbessert wurden
     - Die random Reduction hat fast keinen Effekt gehabt
+    - Schauen, wieso Brain-Diffuser überhaupt irgendwas von den Artificial Shapes rekonstruieren kann
 
 
 den dimension collapse in dem monotone dropout ziemlich gut nochmal gesehen, es wird nur noch auf das abgebildet, was das modell schon kann
@@ -39,6 +35,8 @@ Oder?
 Also die Gesamtleistung wird ja dann nicht besser oder doch?
 Also verglichen mit der main baseline frag ich mich gerade.
 Sollte man vielleicht noch hinzufügen, also den Vergleich von monotone subsampling mit 100 baselin
+\cite{wangDiversityImageCaptioning2022}
+- Diversity in Image captioning (ist vielleicht eher was noch fürs AICap Experiment)
 
 - Decoding von Brain-Diffuser ist auch irgendwo fraglich, weil das so wenig sensibel auf die random reduction war
 
@@ -48,7 +46,8 @@ Generell:
 - Man könnte auch noch den tatsächlichen test einfügen in die versatile diffusion
 
 Andere Datensätze:
-- Things, NSD, jetzt neu auch NSD artificial images https://arxiv.org/pdf/2503.06286
+- Things, NSD, jetzt neu auch NSD artificial images 
+https://arxiv.org/pdf/2503.06286
 
 Biologisch gesehen:
 - Schauen, auf welchen gehirnebenen die Treatments von uns jeweils einen Effekt hatten und wo nicht.
