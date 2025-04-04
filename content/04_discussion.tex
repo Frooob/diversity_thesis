@@ -23,36 +23,9 @@ Some open questions remain for the future. In particular, whether there really i
 In addition to the approaches that  address diversity and generalisation, there are other areas where further insights are needed. On the one hand, the results of this work could be replicated with other datasets, such as THINGS~\cite{hebartTHINGSdataMultimodalCollection2023}, NSD~\cite{allenMassive7TFMRI2022}. As shown by Shirakawa et al.~\cite{shirakawaSpuriousReconstructionBrain2024}, alternative splitting or holdout of clusters in the training dataset can also be used for investigating OOD generalisation for such datasets with high redundancy between training and test data. In addition, a new version of the NSD dataset~\cite{gifford7TFMRIDataset2025} has recently been published which deliberately contains OOD test samples that are conceptually similar to the artificial shapes of the Deeprecon dataset. It is also possible to partially adapt the existing reconstruction method or replace it completely with other algorithms. Instead of linear ridge regression, other translation algorithms could be used. In particular, if a dataset with a larger number of training samples is used and fewer features need to be predicted (e.g. in the form of a different reconstruction algorithm), it might be possible to use non-linear translators and thus include interactions between individual voxels (or underlying neurons) in the translation. In addition to the translator, the reconstruction method can also be adapted. Samuel et al.~\cite{samuelGeneratingImagesRare2024} show that rare concepts can be reconstructed better with diffusion algorithms, especially if the diffusion seed is well chosen; these findings could possibly be applied to brain activity reconstruction. Following this logic, the VDVAE input of the versatile diffusion algorithm could be given more weight by the brain diffuser when it detects that the image to be reconstructed is not well embedded in the CLIP space (e.g. when low naturalness is detected). The versatile diffusion part can also be further modified so that several different contexts can be included in the diffusion (e.g. a low-level context trained with low-level labels and a high-level context from high-level labels). Also, as Shen et al.~\cite{shenDeepImageReconstruction2019} showed, diffusion is not absolutely necessary for reconstruction. An iterative algorithm such as iCNN could also be applied directly to the predicted features from the CLIP space to reconstruct the images. In addition, auto-regressive transformers such as Janus-Pro~\cite{chenJanusproUnifiedMultimodal2025} also look like a promising method for performing image reconstruction. In addition to the Brain-Diffuser and iCNN, there are other end2end algorithms that translate brain activity into reconstructed images. Mindeye2~\cite{scottiMindEye2SharedSubjectModels2024}, which also allows training data to be shared between subjects for fine-tuning, looks particularly promising.
 
 
-% Andere Datensätze:
-% - Things\cite{hebartTHINGSdataMultimodalCollection2023}, NSD\cite{allenMassive7TFMRI2022}, jetzt neu auch NSD  artificial images \cite{gifford7TFMRIDataset2025}
-
-% - Andere Decoder Algorithmen 
-%     - Statt der ridge regression, durch Methoden in dieser Arbeit könnten teilweise die Menge der Daten deutlich erhöht werden, wodurch möglicherweise auch etwas anderes als eine (Ridge) Regression verwendet werden könnte
-%     - Den Clip Space der Artificial shapes untersuchen, gibt es eventuell Bilder, die sich gar nicht erst in CLIP einbetten lassen?
-
-% - Andere Reconstruction Algorithmen:
-    % - Um die rare concepts zu verbessern sagen \cite{samuelGeneratingImagesRare2024} dass man sich vor allem auf den diffusion input fokussieren muss
-        % - man kann noch einen Schritt weiter gehen und sagen, man solle sich ausschließlich auf den Input konzentrieren und mehr mit VDVAEs machen (oder ähnlichen Algorithmen die nicht so viel halluzinieren)
-    % - Andere Image generation Algorithms (innerhalb des Brain-Diffuser Algorithm, also versatile diffusion austauschen)
-    % - Theoretisch sind viele Contexts möglich bei dem versatile diffusion approach, mit einer weiterentwicklung könnte man so dann auch je nach image das regeneriert werden soll ganz unterschiedlichen kontext geben (das schreibe ich auch schon teilweise beim aicap Experiment)
-    % - Den Clip Space der Artificial shapes untersuchen, gibt es eventuell Bilder, die sich gar nicht erst in CLIP einbetten lassen?
-    % - iCNN mit clip ginge ja theoretisch auch
-    % - Oder Autoregressive models wie jetzt jüngst von OpenAI gezeigt wurde
-
-% - Andere "fertige" End2End-Algorithmen (mindeye etc.)
-%     - Man könnte auch komplette captions generieren lassen und nicht nur die Features wie bei unibrain \cite{maiUniBrainUnifyImage2023}
-    % - Oder stärker auf den VDVAE konzentrieren und sich demnach vor allem auf 'low-level' fokusieren
-
-% Biologisch gesehen:
-%     - Schauen, auf welchen gehirnebenen die Treatments von uns jeweils einen Effekt hatten und wo nicht.
-
-    
-
-
 \section{Conclusion}
 % https://www.scribbr.com/dissertation/write-conclusion/
 Hier nochmal die Zusammenfassung dessen was ich gemacht habe. 
-
 
 % Clearly state the answer to your main research question
 % Summarize and reflect on your research process
