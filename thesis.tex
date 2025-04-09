@@ -55,6 +55,10 @@
 
 \usepackage[colorinlistoftodos]{todonotes}
 
+\newcommand{\myComment}[1]{\todo{\begin{spacing}{0}\tiny{#1}\end{spacing}}
+}
+
+
 %% Latin filler used in Chapter 1, with a test for package version date (https://ctan.org/pkg/lipsum)
 \usepackage{lipsum}
 \IfPackageAtLeastTF{lipsum}{2021/09/20}{\setlipsum{auto-lang=false}}{}
