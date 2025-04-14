@@ -60,30 +60,10 @@ For the Brain-Diffuser algorithm, the linear ridge regression~\cite{hoerlRidgeRe
 
 The ridge regression minimizes the following objective function:
 \[
-\min_{\beta} \sum_{i=1}^{n} {|Y_i - X_i\top \beta|}^2 + \lambda |\beta|^2_F
+\min_{\beta} \sum_{i=1}^{n} {|y_i - x_i\top \beta|}^2 + \lambda |\beta|^2_F
 \]
-where:
-\begin{itemize}
-    \item \(Y_i\) is the extracted \rOne{(true)} feature-vector (VDAVE, CLIP Text or CLIP Vision) for the \(i\)-train image or caption,
-    \item \(X_i\) is the vector of recorded voxels in response to the \(i\)-th picture,
-    \item \(\beta\) is the \rOne{matrix} of coefficients to be estimated,
-    \item \(\lambda\) is the regularization parameter controlling the strength of the penalty.
-\end{itemize}
+\noindent{}\rTwo{where \(y_i\) is the extracted \rOne{(true)} feature-vector (VDAVE, CLIP Text or CLIP Vision) for the \(i\)-train image or caption, \(x_i\) is the vector of recorded voxels in response to the \(i\)-th picture, \(\beta\) is the \rOne{matrix} of coefficients to be estimated, and \(\lambda\) is the regularization parameter controlling the strength of the penalty.} For the prediction of the latent space of the VDAVE, $\lambda_{\mathrm{VDVAE}}=50000$ is set, for CLIP Text $\lambda_{\mathrm{CLIP Text}}=100000$ and for CLIP Vision $\lambda_{\mathrm{CLIP Vision}}=60000$.
 
-For the prediction of the latent space of the VDAVE, $\lambda_{\mathrm{VDVAE}}=50000$ is set, for CLIP Text $\lambda_{\mathrm{CLIP Text}}=100000$ and for CLIP Vision $\lambda_{\mathrm{CLIP Vision}}=60000$. 
-
-% \begin{equation}
-%     \hat{\beta} = \underset{\beta}{\arg\min} \ \frac{1}{n} \sum_{i=1}^{n} (y_i - X_i \beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2
-% \end{equation}
-        
-% where:
-% \begin{itemize}
-%     \item \(\hat{\beta}\) is the estimated vector of coefficients,
-%     \item \(y_i\) is the observed response for the \(i\)-th observation,
-%     \item \(X_i\) is the vector of predictor values for the \(i\)-th observation,
-%     \item \(\beta\) is the vector of coefficients to be estimated,
-%     \item \(\lambda\) is the regularization parameter controlling the strength of the penalty.
-% \end{itemize}
 
 \subsubsection{Brain-Diffuser reconstruction}
 % % Reconstruction
@@ -136,62 +116,21 @@ It is possible to evaluate both stages of the reconstruction algorithms (the \rO
 
 
 \subsection{Measuring \rOne{translation} performance}
-% To evaluate the \rOne{translation} performance, different criteria can be used. Formally, the result of the regression can be described as follows. Let:
-% \begin{itemize}
-%     \item \( \hat{Y} \) be the predicted features matrix of shape \( n \times m \).
-%     \item \( Y \) be the true features matrix of shape \( n \times m \).
-%     \item \( n \) be the number of samples.
-%     \item \( m \) be the number of features.
-% \end{itemize}
-
-% The profile correlation and pattern correlation can now be used to assess how similar the features predicted from the brain activity and the true features are~\cite{horikawaGenericDecodingSeen2017}. 
-
-% \[
-% \text{ProfileCorrelation}(i) = \text{corr}\left( \mathbf{Y}_{\text{true}, i},\ \mathbf{Y}_{\text{pred}, i} \right) \quad \text{for } i = 1, 2, \ldots, m
-% \]
-
-% \[
-% \text{PatternCorrelation}(j) = \text{corr}\left( \mathbf{Y}_{\text{true}}^{(j)},\ \mathbf{Y}_{\text{pred}}^{(j)} \right) \quad \text{for } j = 1, 2, \ldots, n
-% \]
-
-% Profile Correlation focuses more strongly on how well individual prediction units (e.g.\ a low-level layer in VGG19) can be predicted. Pattern Correlation focuses on how well the entire feature pattern can be predicted for a single image. 
-% In addition to Profile and Pattern Correlation, the Pairwise Identification Accuracy can also be calculated. 
-
 \rOne{To evaluate the translation performance, pairwise identification accuracy will be used}. The pairwise identification accuracy is a metric frequently used to determine the feature prediction in reconstruction algorithms~\cite{shirakawaSpuriousReconstructionBrain2024}. 
 The pairwise identification accuracy measures whether a predicted feature vector is more similar to the true feature than the other predicted vectors. For a Feature Vector $i$, it is defined as:
 
-% für alle
-% \[
-% \text{PairwiseIDAcc} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{1}{n-1} \sum_{\substack{j=1 \\ j \neq i}}^{n} \mathbb{I} \left( \left\| \mathbf{Y}_{\text{pred},i} - \mathbf{Y}_{\text{true},i} \right\| < \left\| \mathbf{Y}_{\text{pred},j} - \mathbf{Y}_{\text{true},i} \right\| \right) \right)
-% \]
-
 
 \[ % Only for image i
-\text{PairwiseIDAcc}_i \coloneq \frac{1}{n-1} \sum_{\substack{j=1 \\ j \neq i}}^{n} \mathbb{I} \left(  \text{sim}\left(\mathbf{\hat{Y}}_{i}, \mathbf{Y}_{i}\right)  > \text{sim}\left(\mathbf{\hat{Y}}_{j}, \mathbf{Y}_{i} \right) \right)
+\text{PairwiseIDAcc}_i \coloneq \frac{1}{n-1} \sum_{\substack{j=1 \\ j \neq i}}^{n} \mathbb{I} \left(  \text{sim}\left(\hat{y}_{i}, y_{i}\right)  > \text{sim}\left(\hat{y}_{j}, y_{i} \right) \right)
 \]
-
-\begin{itemize}
-    \item \( \mathbf{Y}_{i} \) represents the true feature vector for the \( i \)-th sample.
-    \item \( \mathbf{\hat{Y}}_{i} \) represents the predicted feature vector for the \( i \)-th sample.
-    \item \( \text{sim}\left( \cdot, \cdot \right) \) denotes an arbitrary distance metric for vectors.
-    \item \( \mathbb{I}(\cdot) \) is the indicator function, which equals 1 if the condition inside is true and 0 otherwise.
-\end{itemize}
-
-\noindent{}The \rOne{similarity} metric can be freely chosen, in this work, the cosine \rOne{similarity} is used, since the high dimensionality would negatively affect the euclidean distance~\cite{koppen2000curse}. The cosine \rOne{similarity} between to vectors \textbf{a} and \textbf{b} is calculated as follows:
+\noindent{}\rTwo{where \( y_{i} \) represents the true feature vector for the \( i \)-th sample, \( \hat{y}_{i} \) represents the predicted feature vector for the \( i \)-th sample, \( \text{sim}\left( \cdot, \cdot \right) \) denotes an arbitrary distance metric for vectors and \( \mathbb{I}(\cdot) \) is the indicator function, which equals 1 if the condition inside is true and 0 otherwise.} The \rOne{similarity} metric can be freely chosen, in this work, the cosine \rOne{similarity} is used, since the high dimensionality would negatively affect the euclidean distance~\cite{koppen2000curse}. The cosine \rOne{similarity} between to vectors \textbf{a} and \textbf{b} is calculated as follows:
 
 \[
-\text{cosine\_sim}(\mathbf{a}, \mathbf{b}) \coloneq \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\| \, \|\mathbf{b}\|}
+\text{cosine\_sim}(a, b) \coloneq \frac{a \cdot b}{\|a\| \, \|b\|}
 \]
 
 \noindent{}If a feature vector cannot be predicted from brain activity, one would expect the pairwise identification accuracy to be 0.5, since it would be a matter of chance whether any other vector would be more or less similar to the true feature than the actually predicted feature vector. In order to compute the Pairwise Identification Accuracy, for the different \rOne{translators} of the iCNN and the Brain-Diffuser, the corresponding multidimensional feature vectors are reshaped to a one-dimensional vector to be able to compute the vector similarity between layers (for example the convolutional layers of the VGG19 are multidimensional). \rOne{The pairwise identification may be abbreviated as ID Accuracy in the following}. 
-%  Due to the better interpretability of the Pairwise Identification Accuracy compared to the Pattern and Profile Correlation, the latter is reported and interpreted. The values for Pattern and Profile Correlation can be found in the appendix, unless they are directly necessary to make results more explicit (as for example when the Pairwise Identification Accuracy is not able to show the differences between individual experimental conditions due to ceiling effects).
 
-
-
-%% Recsontruction Criteria
-% Pixel-Correlation (Low-level)
-% dreamsim (Mid-Level)
-% CLIP Vision (High-level)
 
 \subsection{Measuring reconstruction performance}
 
