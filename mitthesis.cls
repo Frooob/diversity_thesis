@@ -377,7 +377,7 @@
  	\str_case_e:nnF 
 %		{ \str_casefold:e { \tl_to_str:N  \g__dd_month_tl } } % not def'd until 2022/10/16
 		{ \str_lowercase:f { \tl_to_str:N  \g__dd_month_tl } }
-	 	{ {february}{} {may}{} {june}{} {september}{}}
+	 	{ {february}{} {may}{} {june}{} {september}{} {april}{}}
 		{ \msg_error:nnn { \ClassName } { wrong_month } {#1} } 
 }
 \msg_new:nnnn { \ClassName } { wrong_month } {The\ degree\ month\ must\ be\ one\ of\ February,\ May,\ June,\ or\ September.} {You\ cannot\ use\ #1\ as\ the\ degree\ month.}
@@ -820,14 +820,14 @@
 	}
 	\int_do_while:nNnn { \g__signature_supno_int } < { \g_supervisor_supervisorcnt_int } {
 		\int_gincr:N  \g__signature_supno_int
-		Certified\ by: \> \seq_item:cn { g_supervisor_name_seq } { \g__signature_supno_int } \\
+		First\ supervisor: \> \seq_item:cn { g_supervisor_name_seq } { \g__signature_supno_int } \\
 		\> \seq_item:cn { g_supervisor_title_seq } { \g__signature_supno_int },\ 
 			\g_titlepage_supervisor_designation_tl \\[1em]
 	}
 	\int_compare:nNnF { \g_acceptor_acceptorcnt_int } = {0} {
     	\int_do_while:nNnn { \g__signature_accno_int } < { \g_acceptor_acceptorcnt_int } {
     		\int_gincr:N  \g__signature_accno_int
-    		Accepted\ by: \> \seq_item:cn { g_acceptor_name_seq } { \g__signature_accno_int } \\
+    		Second\ supervisor: \> \seq_item:cn { g_acceptor_name_seq } { \g__signature_accno_int } \\
     		\> \seq_item:cn { g_acceptor_department_seq } { \g__signature_accno_int }
     			\bool_if:NF \g__acceptor_title_tf_bool
     			{
