@@ -25,7 +25,14 @@ With respect to \rOne{translating} brain activity, it has been previously found 
 
 \subsection{Methods}
 
-The procedure for obtaining a reduced training data set with maximised diversity is described below.
+The procedure for obtaining a reduced training data set with maximised diversity is described below. \rThree{An overview of the whole pipeline and goal for this experiment is is depicted in Figure~\ref{fig:dropout_pipeline}.}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/pipeline_exp1.png}
+  \caption[Experiment 1: Pipeline]{Pipeline used in the first experiment. The goal of the experiment is written above. The subsampling process for three different feature spaces is depicted in the left diagram. The translators newly trained in this experiment are highlighted in red text. The translator is the function `$f$', the feature encoder (either VDVAE, CLIP or VGG19) is the function `E' and the image generator (either iCNN or versatile diffusion) is the function `G'}\label{fig:dropout_pipeline}
+\end{figure}
+
 
 \subsubsection{Baseline with random dropout}
 

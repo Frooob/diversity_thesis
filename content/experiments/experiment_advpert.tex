@@ -37,7 +37,13 @@ Adversarial perturbations have often been used in the past to enrich training da
 
 \subsection{Methods}
 
-The perturbation procedure is described below. The training images are to be manipulated in such a way that they look almost the same as before while drastically manipulating the semantic information that the CLIP Vision encoder reads from them. Two different algorithms are analysed to generate the perturbations in the images. It is then determined which of the two algorithms is better at achieving the goal of keeping the input image visually as close to the original as possible while at the same time producing different CLIP Vision embeddings. Subsequently, all training data is perturbed using this algorithm and the perturbed versions are used to train the CLIP Vision translator of the Brain-Diffuser algorithm.
+The perturbation procedure is described below. The training images are to be manipulated in such a way that they look almost the same as before while drastically manipulating the semantic information that the CLIP Vision encoder reads from them. Two different algorithms are analysed to generate the perturbations in the images. It is then determined which of the two algorithms is better at achieving the goal of keeping the input image visually as close to the original as possible while at the same time producing different CLIP Vision embeddings. Subsequently, all training data is perturbed using this algorithm and the perturbed versions are used to train the CLIP Vision translator of the Brain-Diffuser algorithm. \rThree{An overview of the whole pipeline and goal for this experiment is depicted in Figure~\ref{fig:advpert_pipeline}.}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/pipeline_exp3.png}
+  \caption[Experiment 3: Pipeline]{Pipeline used in the third experiment. The goal of the experiment is written above. The perturbation generation process is depicted in the left diagram. The translators newly trained in this experiment are highlighted in red text. The translator is the function `$f$', the CLIP Vision encoder is the function `E' and the versatile diffusion generator is the function `G'}\label{fig:advpert_pipeline}
+\end{figure}
 
 \subsubsection{Perturbation process}
 

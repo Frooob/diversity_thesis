@@ -19,7 +19,15 @@ To our knowledge, there has been no detailed investigation of how a focus of cap
 
 
 \subsection{Methods}
-To further investigate the performance of the Brain-Diffuser algorithm, the influence of different caption types on the CLIP Text translator is first tested. Possible differences that may result from the high-level vs.\ low-level information of an image are to be analysed. For this reason, additional captions are created below for the training data, focusing on either the high-level or the low-level features of the image. The API of ChatGPT~\cite{OpenAI_ChatGPT_2024} was used to generate the additional captions for the training images. Using this, captions with two different prompts were generated for all 1200 training images. As it was empirically found that the CLIP Text features can encode less information with increasing number of tokens (= caption length)~\cite{zhangLongCLIPUnlockingLongText2024}, care was taken to ensure that the length of the generated captions did not exceed 35 tokens. The two prompts used to generate the captions are as follows
+To further investigate the performance of the Brain-Diffuser algorithm, the influence of different caption types on the CLIP Text translator is first tested. Possible differences that may result from the high-level vs.\ low-level information of an image are to be analysed. For this reason, additional captions are created below for the training data, focusing on either the high-level or the low-level features of the image. \rThree{An overview of the whole pipeline and goal for this experiment is depicted in Figure~\ref{fig:aicap_pipeline}.}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{plots/pipeline_exp2.png}
+  \caption[Experiment 2: Pipeline]{Pipeline used in the second experiment. The goal of the experiment is written above. The caption generation process is described in the left image. The translators newly trained in this experiment are highlighted in red text. The translator is the function `$f$', the CLIP Text encoder is the function `E' and the versatile diffusion generator is the function `G'}\label{fig:aicap_pipeline}
+\end{figure}
+
+The API of ChatGPT~\cite{OpenAI_ChatGPT_2024} was used to generate the additional captions for the training images. Using this, captions with two different prompts were generated for all 1200 training images. As it was empirically found that the CLIP Text features can encode less information with increasing number of tokens (= caption length)~\cite{zhangLongCLIPUnlockingLongText2024}, care was taken to ensure that the length of the generated captions did not exceed 35 tokens. The two prompts used to generate the captions are as follows
 \begin{itemize}
     \item \textbf{high-level}: Describe the visual contents of this picture. Focus on the semantic concepts in the image. What are the main subjects of the image and what is happening in it? Make sure the output doesn't exceed 25 tokens.
     \item \textbf{low-level}: Describe the visual contents of this picture without using the word representing its direct category or semantic meaning as much as possible. Instead, focus on the colors, shapes, and textures with their relative positions in the image. Do not interpret the scene just describe what is actually visible. Make sure the output doesn't exceed 25 tokens.
