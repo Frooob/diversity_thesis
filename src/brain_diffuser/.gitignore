@@ -1,0 +1,17 @@
+*.npy
+*.npz
+*.pyc
+__pycache__/
+*.pth
+.venv/
+*.th
+*.jsonl
+*.png
+data/*
+results
+BAK
+*.log
+models/
+completed_tasks.txt
+set_api_key.py  
+BAK*
