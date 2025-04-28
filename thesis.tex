@@ -50,14 +50,19 @@
 \usepackage[version=4]{mhchem}%   documentation at https://ctan.org/pkg/mhchem
 \usepackage[dvipsnames]{xcolor} % Add this in the preamble if not already present
 
-\newcommand{\rOne}[1]{\textcolor{red}{#1}}
-\newcommand{\rTwo}[1]{\textcolor{blue}{#1}}
-\newcommand{\rThree}[1]{\textcolor{ForestGreen}{#1}}
+% \newcommand{\rOne}[1]{\textcolor{red}{#1}}
+% \newcommand{\rTwo}[1]{\textcolor{blue}{#1}}
+% \newcommand{\rThree}[1]{\textcolor{ForestGreen}{#1}}
+
+\newcommand{\rOne}[1]{{#1}}
+\newcommand{\rTwo}[1]{{#1}}
+\newcommand{\rThree}[1]{{#1}}
+
+
 
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{cleveref} 
-\newcommand{\myComment}[1]{\todo{\begin{spacing}{0}\tiny{#1}\end{spacing}}
-}
+
 
 
 %% Latin filler used in Chapter 1, with a test for package version date (https://ctan.org/pkg/lipsum)
@@ -162,7 +167,7 @@
 % The following items should be adjusted to match your work. <================= !!!!!!!!!!
 
 \hypersetup{%
-	pdfsubject={Template for writing MIT theses with the mitthesis class},
+	pdfsubject={Master thesis of Matthias Mildenberger with the goal to investigate the effect of data diversity on image reconstruction from brain activity.},
 	% Change this to briefly state topic of your thesis 
 % 
 	pdfkeywords={Göttingen, Neuroinformatics},
@@ -218,7 +223,7 @@
 %\Degree{Bachelor of Science in Mechanical Engineering}{Department of Mechanical Engineering}
 
 % If there is more than one supervisor, use the \Supervisor command for each.
-\Supervisor{Yoshihiro Nagano}{Assistant professor of Neuroinformatics, Kyoto University}
+\Supervisor{Yoshihiro Nagano}{Assistant Professor of Neuroinformatics, Kyoto University}
 % \Supervisor{Edward C. Pickering}{Professor of Physics, and \\ \> Professor of Something Else}
 % \Supervisor{Secunda Castor}{Professor of Research}
 % \Supervisor{Quintus Castor}{Professor of Log Dams}
@@ -237,7 +242,7 @@
 % May 2025
 
 % Date that final thesis is submitted to department
-\ThesisDate{April 25, 2025}
+\ThesisDate{April 28, 2025}
 
 
 %%%%%%  Choose whether to have a CREATIVE COMMONS License  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,7 +303,7 @@
 	\input{abstract.tex}% use \input rather than \include because we're inside an environment
 \end{abstract}
 
-% \include{acknowledgments}% acknowledgments.tex (.tex extension is presumed by \include) 
+\include{acknowledgments}% acknowledgments.tex (.tex extension is presumed by \include) 
 
 % \include{biography}% biography.tex (optional, see https://libraries.mit.edu/distinctive-collections/thesis-specs/#format)
 
